@@ -1,0 +1,73 @@
+﻿<div class="d-flex align-items-center justify-content-between my-3" style="border-bottom:1px solid #CDD5E9">
+    <div class="main-heading">Recent Templates</div>
+    <button type="button" class="btn btn-primary btn-sm" onclick="Template.CreateNew()">Create New</button>
+</div>
+
+<div>
+    <table id="example" class="table table-bordered com_table" style="width: 100%;">
+        <thead>
+            <tr class="text-dark">
+                <th scope="col" style="border-left: 5px solid var(--orange-col);">Sr No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Code</th>
+                <th scope="col" class="col-6">Description</th>
+                <th scope="col">CreatedOn</th>
+                <th scope="col">CreatedBy</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="TemplateListBody">
+            <tr>
+                <td colspan="7">
+                    <font style="color:red;">No Records found..</font>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--Modal-->
+<div class="modal fade" id="CreateTemplateModal" tabindex="-1" role="dialog" aria-labelledby="CreateTemplateModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 850px !important;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-b" id="ModalTitle">Template</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-row">
+                    <div style="display: none;">
+                        <input type="number" id="WorkflowId">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="TemplateNameInput" class="label font-sb mb-1">Template Name</label>
+                        <input type="text" class="form-control form-control-sm" id="TemplateNameInput">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="TemplateCodeInput" class="label font-sb mb-1">Template Code</label>
+                        <input type="text" class="form-control form-control-sm" id="TemplateCodeInput">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="TemplateDescArea" class="label font-sb mb-1">Template Description</label>
+                        <textarea id="TemplateDescArea" class="form-control" row="6"></textarea>
+                    </div>
+                    <div class="col-md-2 mt-3">
+                        <input type="checkbox" name="isActive" id="IsActive">
+                        <label for="IsActive" class="label font-sb mb-1">IsActive</label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="modalSavebtn">Submit</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>

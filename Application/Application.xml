@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Application</name>
+    </assembly>
+    <members>
+        <member name="T:Application.DTOs.Admin.UserGroupDTO">
+            <summary>
+            This Model Represents Details of User Groups
+            </summary>
+        </member>
+    </members>
+</doc>

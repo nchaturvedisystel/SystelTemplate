@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:WebAPI.AppExtension.UseMiddleWareBefore(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Add middleware which require to in middleware pipeline before routing data collected
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

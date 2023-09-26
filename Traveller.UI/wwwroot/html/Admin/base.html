@@ -1,0 +1,173 @@
+﻿<!-- <h1> This is admin Base Page</h1> -->
+<div id="SearchTemplateDiv" class="mt-3">
+  <div class="d-flex justify-content-between">
+    <div class="main-heading"><label>Dashboard</label></div>
+    <div>
+      <div class="d-flex justify-content-center">
+        <div class="input-group w-auto">
+          <select class="form-control form-control-sm" placeholder="Enter Top Level Number"
+              id="PartItemIdSelect">
+          </select>
+          <button class="btn btn-primary btn-sm" type="button" id="FetchPartItemDetailBtn"
+              data-mdb-ripple-color="dark" onclick="Admin.PartItemFetch()"
+              style="border-radius: 0px 5px 5px 0px;">
+              Fetch Detail
+          </button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="form-row">
+  <div class="col-sm-2 mb-3">
+    <div class="com_card p-3 h-100">
+      <div class="row no-gutters mb-2">
+        <div class="col">
+          <div class="font-sb">Problems reported</div>
+        </div>
+        <div class="col-auto">
+          <div class="font-sb yellow_txt" id="problemReported"></div>
+        </div>
+      </div>
+      <div class="progress mb-1 mb-3" style="height: 7px;">
+        <div class="progress-bar rounded-pill" role="progressbar" style="width: 35%;" aria-valuenow="25"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <a href="#" class="btn btn-warning sm_btn">Review File</a>
+    </div>
+  </div>
+
+  <div class="col-sm-2 mb-3">
+    <div class="com_card p-3 h-100">
+      <div class="row no-gutters mb-2">
+        <div class="col">
+          <div class="font-sb">Resolved</div>
+        </div>
+        <div class="col-auto">
+          <div class="font-sb yellow_txt" id="resolved"></div>
+        </div>
+      </div>
+      <div class="progress mb-1 mb-3" style="height: 7px;">
+        <div class="progress-bar rounded-pill" role="progressbar" style="width: 35%;" aria-valuenow="25"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <a href="#" class="btn btn-warning sm_btn">Review Document</a>
+    </div>
+  </div>
+
+  <div class="col-sm-2 mb-3">
+    <div class="com_card p-3 h-100">
+      <div class="row no-gutters mb-4">
+        <div class="col">
+          <div class="font-sb">ETA Missed for WO</div>
+        </div>
+      </div>
+      <div class="orange_txt font-sb h5" id="etaTime"></div>
+    </div>
+  </div>
+
+  <div class="col-sm-2 mb-3">
+    <div class="com_card p-3 h-100">
+      <div class="row no-gutters mb-2">
+        <div class="col">
+          <div class="font-sb">Active Travelers</div>
+        </div>
+        <div class="col-auto">
+          <div class="font-sb yellow_txt" id="activeTravelers"></div>
+        </div>
+      </div>
+      <div class="progress mb-1 mb-3" style="height: 7px;">
+        <div class="progress-bar rounded-pill" role="progressbar" style="width: 35%;" aria-valuenow="25"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <a href="#" class="btn btn-warning sm_btn">Review File</a>
+    </div>
+  </div>
+
+  <div class="col-sm-2 mb-3">
+    <div class="com_card p-3 h-100">
+      <div class="row no-gutters mb-2">
+        <div class="col">
+          <div class="font-sb">Active Work Orders</div>
+        </div>
+        <div class="col-auto">
+          <div class="font-sb yellow_txt" id="activeWorkOrders"></div>
+        </div>
+      </div>
+      <div class="progress mb-1 mb-3" style="height: 7px;">
+        <div class="progress-bar rounded-pill" role="progressbar" style="width: 35%;" aria-valuenow="25"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <a href="#" class="btn btn-warning sm_btn">Review Document</a>
+    </div>
+  </div>
+
+  <div class="col-sm-2 mb-3">
+    <div class="com_card p-3 h-100">
+      <div class="row no-gutters mb-4">
+        <div class="col">
+          <div class="font-sb">Average Delay</div>
+        </div>
+      </div>
+      <div class="orange_txt font-sb h5" id="averageDelay"></div>
+    </div>
+  </div>
+</div>
+
+<div class="h5 font-sb mb-3">Activity By Categories</div>
+<div class="row">
+  <div class="col-md-4 mb-3">
+    <div class="com_card">
+      <div class="font-sb h6 mb-3">Work Centers Visit</div>
+      <div id="wcv_chart" style="width: 100%; height: 200px; font-size: 11px;" class="mb-3"></div>
+      <div class="font-sb mb-2">Top 5 Categories</div>
+      <table class="w-100 top_cat">
+        <tbody id="workCenterBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="com_card">
+      <div class="font-sb h6 mb-3">Work Centers Steps</div>
+      <div id="wcs_chart" style="width: 100%; height: 200px; font-size: 11px;" class="mb-3"></div>
+      <div class="font-sb mb-2">Stats</div>
+      <table class="w-100 top_cat">
+        <tbody id="workCenterStepsBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="com_card">
+      <div class="font-sb h6 mb-3">Monthly Top Performance</div>
+      <div class="top_per_cont">
+        <table class="table top_per_list mb-0">
+          <tbody id="performanceListBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="com_card">
+      <div class="font-sb h6 mb-3">Active Pages</div>
+      <div id="ap_chart" style="width: 100%; height: 200px; font-size: 11px;" class="mb-3"></div>
+      <div class="font-sb mb-2">Top 5 Categories</div>
+      <table class="w-100 top_cat">
+        <tbody id="activePagesListBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="com_card">
+      <div class="font-sb h6 mb-3">Average Roles</div>
+      <div id="AverageRoles_chart" style="width: 100%; height: 200px; font-size: 11px;" class="mb-3"></div>
+      <div class="font-sb mb-2">Top 5 Categories</div>
+      <table class="w-100 top_cat">
+        <tbody id="activeRolesListBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+</div>
+</div>

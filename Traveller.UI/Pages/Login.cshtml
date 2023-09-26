@@ -1,0 +1,140 @@
+﻿@page
+@model Traveller.UI.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Pages/Shared/_LoginLayout.cshtml";
+}
+<html lang="en">
+<head>
+    <style>
+        .h-100 {
+            height: 100vh!important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login_container">
+        <div class="container h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-md-4">
+                    <div class="h1 text-white font-b">Ticket Desk</div>
+                    <p class="h5 mb-3 text-white">The Ticket Desk Management System.</p>
+                    <img src="Layout2/images/login_stages.png">
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="login_block" onkeypress="handle(event)">
+                        <img src="Layout2/images/logo_white.svg" class="logo">
+                        <div class="text-center my-4 login_hd">Login</div>
+                        <input type="text" placeholder="UserID" id="UserId" class="form-control rounded-pill mb-3">
+                        <input type="password" placeholder="password" id="UserPassword" class="form-control rounded-pill mb-2">
+                        <div class="text-right mb-3">
+                            <a href="#" class="forgot_pass" onclick="UserForgotPassword_OnClick()">forgot password ?</a>
+                        </div>
+                        <a href="#" class="btn btn-primary rounded-pill w-100" onclick="UserLogin_OnClick()">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/js/sweetalert2.all.min.js"></script>
+<script src="~/js/common/ajaxutil.js"></script>
+<script>
+        function UserLogin_OnClick()
+        {
+            var validated = true,
+                UserId = $("#UserId")[0].value.trim(),
+                UserPwd = $("#UserPassword")[0].value.trim();
+            ValidationMsg = "Kindly enter ";
+
+            if (UserId == "") {
+                validated = false;
+                ValidationMsg = "Kindly enter <span style='color:#F24800;'>UserId</span> and <span style='color:#F24800;'>Password</span>";
+            }
+            else if (UserId == "") {
+                validated = false;
+                ValidationMsg = "Kindly enter <span style='color:#F24800;'>UserId</span>";
+            }
+            else if (UserPwd == "") {
+                validated = false;
+                ValidationMsg = "Kindly enter <span style='color:#F24800;'>Password</span>";
+            }
+            if (validated) {
+                //Ajax Call
+                var data = {
+                    userName: UserId,
+                    password: UserPwd,
+                    companyCode: "string"
+                }
+                Ajax.Post("users/auth", data, UserLogin_OnSuccessCallback, UserLogin_OnErrorCallback);
+            }
+            else {
+                let timerInterval
+                Swal.fire({
+                    title: ValidationMsg,
+                    html: 'Retry in <b></b> milliseconds.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        //console.log('I was closed by the timer')
+                    }
+                })
+            }
+        }
+        function UserLogin_OnSuccessCallback(data){
+
+            data = data.data;
+            if(data && data.token && data.token.trim() != "")
+            {
+                localStorage.setItem('token', data.token.trim());
+                window.location = window.location.origin;
+                //window.location = window.location.origin + "?urefno=" + data.token.trim();
+            }
+            if (data && data.userId <= 0) {
+                //userId will be 0 incase of failed login, designation will be having error description
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.designation
+                })
+            }
+        }
+        function UserLogin_OnErrorCallback(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error occurred, kindly contact Admin!'
+            })
+        }
+        function UserForgotPassword_OnClick(){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Functionality not implemented!'
+            })
+        }
+
+         function handle(e) {
+            if (e.keyCode === 13) {
+                e.preventDefault(); // Ensure it is only this code that runs
+
+                UserLogin_OnClick();
+            }
+        }
+</script>
+

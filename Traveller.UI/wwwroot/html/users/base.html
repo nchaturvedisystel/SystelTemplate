@@ -1,0 +1,215 @@
+﻿<div class="user_mang_bg">
+    <div class="inner_container pt-4">
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="main-heading mb-2 pb-2 text-white">User</div>
+            </div>
+        </div>
+
+        <div class="row align-items-end">
+            <div class="col-md-6" style="height: 75vh;">
+                <ul class="user_status_block">
+                    <li>
+                        <div class="user_status_content">
+                            <div class="user_status_head">Mfg Group</div>
+                            <table id="mfgGroupDetail" class="w-100 text-center">
+                                
+                            </table>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="user_status_content">
+                            <div class="user_status_head">Users</div>
+                            <table id="Users" class="w-100 text-center">
+                                
+                            </table>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="user_status_content">
+                            <div class="user_status_head">User Count</div>
+                            <div class="text-center h2" id="TotalUsers"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="user_status_content">
+                            <div class="user_status_head">Work Center</div>
+                            <div style="height: 50px; overflow-y: scroll;">
+                              <table class="w-100 text-center" id="Workcenter">
+                                  
+                              </table>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="user_status_content">
+                            <div class="user_status_head">Rolewise</div>
+                            <div style="height: 50px; overflow-y: scroll; overflow-x: hidden;">
+
+                            <table class="w-100 text-center" id="Rolewise">
+                                
+                            </table>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="user_status_content">
+                            <div class="user_status_head">Active</div>
+                            <table class="w-100 text-center" id="ActiveUsers">
+                                
+                            </table>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="col-md-6 text-right">
+                <ul class="user_mang_admin_block">
+                    <li onclick="UserMaster.CreateNew()">
+                        <a href="#">
+                            <i class="fas fa-user-plus"></i>
+                            <div>Create<small>New User</small></div>
+                        </a>
+                    </li>
+                    <li onclick="Navigation.LoadPage('/html/users/viewAllUsers.html','USRL')">
+                        <a href="#">
+                            <i class="far fa-file-alt"></i>
+                            <div>Report</div>
+                        </a>
+                    </li>
+                </ul>
+                <img src="../../Layout2/images/user_illustration.png">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="userListModal" tabindex="-1" role="dialog" aria-labelledby="userListModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="userListModalLabel">List All users modal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="UserMaster.LoadAll()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="userListModalBody">
+
+
+
+        <div id="userCreationForm" style="display:none;">
+          <!-- User creation and update form -->
+          <form class="form-row">
+  
+            <div class="col-md-6 d-flex flex-column">
+              <label for="profilePic" class="label font-sb mb-1">Profile Picture</label>
+              <img id="previewImg" class="mb-2" style="width: 150px" alt="">
+              <input type="text" class="form-control" id="profileImagePath" style="display: none;">	
+              <input type="file" id="profilePic">
+            </div>
+  
+            <div style="display: none;">
+                <input type="number" id="UserID">
+            </div>
+  
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="UserFirstname" class="label font-sb mb-1">Firstname</label>
+                <input type="text" class="form-control" onchange="UserMaster.previewName()" id="UserFirstname">
+              </div>
+    
+              <div class="mb-3">
+                <label for="UserMiddlename" class="label font-sb mb-1">Middlename</label>
+                <input type="text" class="form-control" onchange="UserMaster.previewName()" id="UserMiddlename">
+              </div>
+    
+              <div class="mb-3">
+                <label for="UserLastname" class="label font-sb mb-1">Lastname</label>
+                <input type="text" class="form-control" onchange="UserMaster.previewName()" id="UserLastname">
+              </div>
+            </div>
+  
+            <div class="col-md-6">
+              <label for="UserEmail" class="label font-sb mb-1">Email address</label>
+              <input type="email" class="form-control" id="UserEmail">
+            </div>
+  
+  
+            <div class="col-md-6 mb-3">
+              <label for="UserMobile" class="label font-sb mb-1">Mobile</label>
+              <input type="number" class="form-control" id="UserMobile">
+            </div>
+  
+  
+  
+            <div class="col-md-6 mb-3">
+              <label for="UserDOB" class="label font-sb mb-1">DOB</label>
+              <input type="date" class="form-control" id="UserDOB">
+            </div>
+  
+            <div class="col-md-6">
+              <label for="UserDesignation" class="label font-sb mb-1">Designation</label>
+              <select class="form-control" name="UserDesignation" id="UserDesignation">
+                <option value="User">User</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Admin">Admin</option>
+            </div>
+  
+            <div class="col-md-6">
+              <input type="checkbox" name="isActive" id="isUserActive">
+              <label for="isUserActive" class="label font-sb mb-1">Employee Active</label>
+            </div>
+  
+          </form>
+          <!-- User creation and update form ends -->
+          <hr>
+            
+            <p id="emailHelp" class="form-text text-muted">Login credentials for <strong id="userDisplayName">User name here</strong> </p>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="UserLoginName" class="label font-sb mb-1">Username</label>
+                <input type="text" class="form-control" id="UserLoginName"  placeholder="Enter username">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="UserLoginPassword" class="label font-sb mb-1">Password</label>
+                <input type="password" class="form-control" id="UserLoginPassword" placeholder="Enter  password">
+              </div>
+            </div>
+        </div>
+
+        <div id="userWorkcenterMap" style="display:none;" >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group w-auto mb-3">
+                <select name="WorkcenterList" class="form-control" placeholder="Enter WorkItem Name"
+                        aria-label="Enter WorkItem Name"
+                        aria-describedby="FetchWorkcenterDetailbtn" id="WorkcenterList">
+                </select>
+                <button class="btn btn-primary" type="button" id="FetchWorkcenterDetailbtn" data-mdb-ripple-color="dark" style="border-radius: 0px 5px 5px 0px;">
+                    Add Workcenter
+                </button>
+            </div>
+            <div>
+              <p style="color:red; display:none;" id="errorMsg" class="ml-2"></p>
+            </div>
+                <div id="WorkCenterMasterDiv" style="min-height:150px; width:100%; border-radius:5px; border: 1px solid #dedede; padding:5px;">
+                
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalCloseButton" onclick="UserMaster.LoadAll()">Close</button>
+        <button type="button" class="btn btn-primary" id="modalSaveButton">Save changes</button>
+        <!-- Add additional buttons or actions if needed -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>

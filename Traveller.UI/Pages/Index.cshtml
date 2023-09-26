@@ -1,0 +1,54 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    Layout = "~/Pages/Shared/_Layout2.cshtml";
+}
+<html lang="en">
+<head>
+</head>
+<body onclick="MainBody_OnClick()">
+    <div id="MainContainer">
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        IsValidUser = true;
+        UserToken = localStorage.getItem('token');
+        $(document).ready(function () {
+            localStorage.setItem('AppVersion', document.getElementById("AppVersionA").text);
+            localStorage.setItem('LayoutNumber', document.getElementById("LayoutNumber").text);
+
+            if (!UserToken) {
+                window.location = window.location.href + "login";
+            }
+            else if (UserToken.toString().trim() == "") {
+                UserToken = CheckIfUrlHasValidToken();
+                window.history.replaceState({}, document.title, "/");
+            }
+            else {
+                User.ValidateToken(UserToken);
+            }
+            //Navigate to default Page
+            Navigation.LoadPageFromUrl("/html/traveler/base.html", "TLR");
+        });
+
+        function CheckIfUrlHasValidToken() {
+            const queryString = window.location.search;
+            if (queryString == "") {
+                window.location = window.location.href + "login";
+            }
+            const urlParams = new URLSearchParams(queryString);
+            const token = urlParams.get('urefno')
+            return token;
+        }
+
+        function MainBody_OnClick(){
+            var menuDiv = document.querySelectorAll(".collapse.show");
+            var menuBarCollapsed = document.querySelectorAll(".sidebar.toggled");
+            if (menuDiv.length > 0 && menuBarCollapsed.length > 0) {
+                menuDiv[0].classList.remove("show");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+
+
+@media only screen and (min-width:240px) and (max-width:767px){
+	.sidebar-brand-icon {display: block;}
+	.sidebar .nav-link span {font-size: 12px !important;}
+	.toggled {border-right: none;}
+	.topbar .nav-item .nav-link {padding: 0 8px}
+	.userDropdown {position: relative; z-index: 9}
+	#userDropdown span {margin-right: 0 !important}
+	#sidebarToggleTop { border-radius: 0; color: #37474f; font-size: 20px; top: 20px}
+	.sidebar {position: fixed; top: 0; left: 0; z-index: 99}	
+	.top_navbar {display: flex; width: 100%; position: fixed; width: 100%; top: 0; left: 0; z-index: 99; background-color: white;}
+}
+
+@media only screen and (min-width:240px) and (max-width:768px) {
+	.mob_logo {display: block; padding: 0 !important}
+	.mob_logo img {max-width: 135px; height: 35px;}
+	.sidebar {width: 220px; left: 0; z-index: 9999 !important}
+	#accordionSidebar {top: 0}
+	#accordionSidebar.sidebar.toggled {left: -80px; width: 220px;}
+	.sidebar-toggled #wrapper {padding-left: 0}
+	#wrapper {padding-left: 0}
+	.sidebar {box-shadow: none;}
+	.sidebar .nav-item .nav-link {text-align: left; width: 100%;}
+	.sidebar .nav-item .nav-link span {display: inline-block;}
+	.sidebar .nav-item .nav-link.active {background-color: rgb(0 0 0 / 10%)}
+	.sidebar .nav-item .nav-link.active i {width: 30px; display: inline-block; text-align: center;}
+	.sidebar .nav-item .collapse {position: static; margin: 0 1rem;}
+	.sidebar .nav-item .nav-link[data-toggle=collapse]::after {width: 1rem; text-align: center; float: right; vertical-align: 0; border: 0; font-weight: 900; content: '\f107'; font-family: 'Font Awesome 5 Free';}
+	.sidebar .nav-item .nav-link.collapsed:after {color: #fff;}
+	.sidebar .nav-item .nav-link[data-toggle=collapse].collapsed::after {content: '\f105';}	
+	.container-fluid {padding-right: .40rem; padding-left: .40rem;}
+	#wrapper {padding-top: 94px}
+	.copyright  {padding-bottom: 40px}
+	.topbar #sidebarToggleTop {height: auto; width: auto;}
+	.topbar #sidebarToggleTop:active {background-color: none !important; outline: none;}
+	.hamburger:after {display: none;}
+	.hamburger {width: 20px; height: 30px; margin-bottom: 0; position: relative; cursor: pointer; transition: all .3s ease}
+	.hamburger .lines {background: transparent; display: block; width: 20px; height: 3px; border-radius: 50rem; transition: .3s; position: relative; top: 4px}
+	.hamburger .lines:before, .hamburger .lines:after {display: block; height: 2px; background: #37474F; border-radius: 50rem; transition: .3s; position: absolute; left: 0; content: ''; transform-origin: 50% 50%; top: 0;}
+	.hamburger .lines:before {transform: rotate3d(0,0,1,45deg); top: 8px; width: 20px}
+	.hamburger .lines:after {transform: rotate3d(0,0,1,-45deg); top: 9px; width: 20px}
+	.hamburger .lines {display: block; width: 20px; height: 2px; top: 12px; background-color: rgb(55,71,79, 0.7);}
+	.hamburger .lines:before {transform: none; width: 14px; background-color: rgb(55,71,79, 0.5)}
+	.hamburger .lines:after {transform: none; top: -8px; width: 7px; background-color: rgb(55,71,79, 0.3)}
+	.scroll-to-top {display: none !important}
+	.cart img {width: 18px}
+	.user-name {font-size: 12px; width: 30px; height: 30px; line-height: 16px;}
+	.sidebar.toggled .nav-item .collapse .collapse-inner {box-shadow: 6px 5px 20px 0px rgb(0 0 0 / 20%)}	
+	.sidebar .nav-item .collapse .collapse-inner a {white-space: inherit !important;}
+}
+
+
+@media only screen and (min-width:993px) and (max-width:1200px) {
+
+}

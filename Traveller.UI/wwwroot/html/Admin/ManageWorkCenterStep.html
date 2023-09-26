@@ -1,0 +1,86 @@
+﻿<div class="d-flex align-items-center justify-content-between my-3" style="border-bottom:1px solid #CDD5E9">
+    <div class="main-heading">WorkCenterSteps</div>
+    <button type="button" class="btn btn-primary btn-sm " onclick="WorkCenterStep.CreateNew()">Create New</button>
+</div>
+
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" style="padding-bottom: 20px;">
+        <table id="example" class="table table-bordered com_table" style="width: 100%;">
+            <thead>
+                <tr class="text-dark">
+                    <th scope="col" style="border-left: 5px solid var(--orange-col);">Sr No</th>
+                    <th scope="col" class="col-1">WorkCenter</th>
+                    <th scope="col" class="col-2">StepName</th>
+                    <th scope="col" class="col-1">StepCode</th>
+                    <th scope="col" class="col-4">Step Description</th>
+                    <th scope="col" class="col-1">Default Sequence</th>
+                    <th scope="col" class="col-1">Created On</th>
+                    <th scope="col" class="col-1">Created By</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="WorkCenterStepsListBody">
+                <tr>
+                    <td colspan="8">
+                        <font style="color:red;">No Records found..</font>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="WorkCenterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 850px !important;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-b" id="exampleModalLabel">WorkCenter Step</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-row">
+                    <div style="display: none;">
+                        <input type="number" id="stepid">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="StepNameInput" class="label font-sb mb-1">Step Name</label>
+                        <input type="text" class="form-control form-control-sm" id="StepNameInput">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="StepCodeInput" class="label font-sb mb-1">Step Code</label>
+                        <input type="text" class="form-control form-control-sm" id="StepCodeInput">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="WorkCenterSelect" class="label font-sb mb-1">WorkCenter</label>
+                        <select class="form-control form-control-sm" name="WorkCenterSelect"
+                            id="WorkCenterSelect">...</select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="StepDisplaySeqInput" class="label font-sb mb-1">Default Sequence</label>
+                        <input type="text" class="form-control form-control-sm" id="StepDisplaySeqInput">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="StepDescArea" class="label font-sb mb-1">Step Description</label>
+                        <textarea id="StepDescArea" class="form-control" row="6"></textarea>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <input type="checkbox" name="isActive" id="IsActive">
+                        <label for="IsActive" class="label font-sb mb-1">IsActive</label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="modalSavebtn">Submit</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>

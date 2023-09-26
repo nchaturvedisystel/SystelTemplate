@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationInsightsResourceId>/subscriptions/486a2978-5d16-4cc2-bb3a-def4bf7d7c3f/resourceGroups/app_monitoring/providers/microsoft.insights/components/traveler_v2_poc</ApplicationInsightsResourceId>
+    <UserSecretsId>48fc7fd6-f1cd-427d-984a-7d9965fa09a5</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Shared\_Layout2.cshtml.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\html\traveler\WorkItemDetail.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\Layout2\images\bubbles_bk_bg.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Pages\Shared\_Layout2.cshtml.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
+  </ItemGroup>
+
+</Project>

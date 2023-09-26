@@ -1,0 +1,48 @@
+﻿<div id="SearchTemplateDiv" class="mt-3">
+    <div class="row d-flex justify-content-between" style="border-bottom:1px solid #CDD5E9">
+        <div class="col-md-4">
+            <div class="main-heading">Role - <label id="RoleLabel">User</label></div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="d-flex justify-content-end">
+                <div class="input-group w-auto">
+                    <select id="RoleList" class="form-control form-control-sm"  name="RoleList" placeholder="Enter Role Name">
+                    </select>
+                    <button class="btn btn-primary btn-sm " type="button" id="FetchRoleDetailBtn" data-mdb-ripple-color="dark" onclick="SubRole.FetchDetails()" style="border-radius: 0px 5px 5px 0px;">
+                        Fetch Detail
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" style="padding-bottom: 20px;">
+        <table id="example" class="table table-bordered com_table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th style="width: 30px; border-left: 5px solid var(--orange-col);">
+                        <i class="fa fa-angle-down expand_row_arrow" aria-hidden="true" id="ExpandTemplateWC" onclick="SubRole.ExpandMenuMasterDataAllRowOnClick(this)"></i>
+                    </th>
+                    <th scope="col">Sr No</th>
+                    <th scope="col" class="col-1">MenuName</th>
+                    <th scope="col" class="col-1">MenuCode</th>
+                    <th scope="col" class="col-7">Menu Description</th>
+                    <th scope="col" class="col-1">Display Order</th>
+                    <th>Access</th>
+                </tr>
+            </thead>
+            <tbody id="SubRolesBody">
+                <tr>
+                    <td colspan="8">
+                        <font style="color:red;">No Records found..</font>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

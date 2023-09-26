@@ -1,0 +1,120 @@
+<div id="SearchPartItemDiv" class="mt-3">
+    <div class="d-flex justify-content-between" style="border-bottom:1px solid #CDD5E9">
+        <div>
+            <div class="main-heading"><label id="PartItemDetailLabel"></label></div>
+        </div>
+        <div>
+            <div class="d-flex justify-content-center">
+                <div class="input-group w-auto">
+                    <select class="form-control form-control-sm" placeholder="Enter Top Level Number"
+                        id="PartItemIdSelect">
+                    </select>
+                    <button class="btn btn-primary btn-sm" type="button" id="FetchPartItemDetailBtn"
+                        data-mdb-ripple-color="dark" onclick="PartItemDetail.PartItemFetch()"
+                        style="border-radius: 0px 5px 5px 0px;">
+                        Fetch Detail
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <div class="nav nav-tabs content_view_type" id="nav-tab" role="tablist">
+                        <a data-toggle="tab" href="#TabularViewDiv" role="tab" aria-selected="true" class="active"><i
+                                class="fas fa-th-list"></i></a>
+                        <a data-toggle="tab" href="#GraphicalViewDiv" role="tab" aria-selected="false"><i
+                                class="fas fa-dot-circle"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="part_item_body" style="margin-left : -25px; margin-right : -25px">
+    <div class="row align-items-center">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-6 mb-6">
+                    <div class="font-r" id="partName"></div>
+                    <div class="font-l h4 mb-3" id="partCode" style="color: #e9621f;"></div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="font-r">Total WorkOrders</div>
+                    <div class="font-l h4 mb-3" id="numOfWorkOrders" style="color: #e9621f;"></div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <div class="font-r">Total Travelers</div>
+                    <div class="font-l h4 mb-0" id="numOfTravelers" style="color: #e9621f;"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="font-r">Total Steps</div>
+                    <div class="font-l h4 mb-0" id="numOfSteps" style="color: #e9621f;"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h5 font-sb mb-4">Top Level Summary (%)</div>
+            <div id="WorkOrderProgressBarDiv" style="height: 200px; width: 100%;"></div>
+        </div>
+        <div class="col-md-3">
+            <div class="h5 font-sb mb-4">Progress</div>
+            <div class="m-auto chart_center_val">
+                <div class="text-center center_val_cont">
+                    <div class="font-r" style="color: #e9621f;"> HH:MM</div>
+                    <div class="h5 mb-0" style="color: #097c13;" id="timeSpent"></div>
+                </div>
+                <div id="CWA_chart_web"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <div class="h4 mb-0" id="remainingId"></div>
+                        <div style="color: #7c7a7e;">Remaining</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <div class="h4 mb-0" id="completedId"></div>
+                        <div style="color: #097c13; font-weight: bold;">Completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!-- Body Section (Table or List View) -->
+<div>
+    <table id="example" class="table table-bordered com_table" style="width: 100%;">
+        <thead>
+            <tr>
+                <th style="width: 30px; border-left: 5px solid var(--orange-col);">
+                    <i class="fa fa-angle-down expand_row_arrow" aria-hidden="true" id="ExpandWorkOrder"
+                        onclick="PartItemDetail.ExpandWorkOrderGroupDataAllRowOnClick(this)"></i>
+                </th>
+                <th>Sr No</th>
+                <th style="white-space: nowrap;">
+                    <div style="width: 100px;">Work Order</div>
+                </th>
+                <th style="white-space: nowrap;">Order Number</th>
+                <th style="white-space: nowrap;">
+                    <div style="width: 100px;">Description</div>
+                </th>
+                <th style="white-space: nowrap;">Units Ordered</th>
+                <th style="white-space: nowrap;">Progress</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="PartItemListBody">
+            <tr>
+                <td colspan="10">
+                    <font style="color:red;">No Records found..</font>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+</div>

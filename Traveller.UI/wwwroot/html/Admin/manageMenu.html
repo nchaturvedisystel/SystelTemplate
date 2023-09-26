@@ -1,0 +1,128 @@
+<input type="text" style="display:none" id="menuStringObject" />
+<div class="d-flex align-items-center justify-content-between my-3" style="border-bottom:1px solid #CDD5E9">
+    <div class="main-heading">Menu List</div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        onclick="MenuMaster.CreateNew()">
+        Create Menu
+    </button>
+</div>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" style="padding-bottom: 50px;">
+        <table id="example" class="table table-bordered com_table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th style="width: 30px; border-left: 5px solid var(--orange-col);">
+                        <i class="fa fa-angle-down expand_row_arrow" aria-hidden="true" id="ExpandTemplateWC"
+                            onclick="MenuMaster.ExpandMenuMasterDataAllRowOnClick(this)"></i>
+                    </th>
+                    <th>Sr No</th>
+                    <th scope="col" class="col-1">MenuName</th>
+                    <th scope="col" class="col-1">MenuCode</th>
+                    <th scope="col" class="col-7">MenuDesc</th>
+                    <th scope="col" class="col-1">Created by</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="TemplateListBody">
+                <tr>
+                    <td colspan="8">
+                        <font style="color:red;">No Records found..</font>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="newMenuModal" tabindex="-1" role="dialog" aria-labelledby="MenuCRUDModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="MenuCRUDModalLabel">Create Menu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="menuName" style="text-align:left !important;">Menu Name :</label>
+                                <input class="form-control" id="menuName" type="text">
+                            </div>
+
+                        </div>
+                        <div style="display:none;">
+                            <input class="form-control" id="menuId" type="number">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="menuCode" style="text-align:left !important;">Menu Code :</label>
+                                <input class="form-control" id="menuCode" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parentMenuId" style="text-align:left !important;">Parent Menu :</label>
+                                <select class="form-control" id="parentMenuId"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="defaultChildMenuId" style="text-align:left !important;">Default Child Menu
+                                    :</label>
+                                <select class="form-control" id="defaultChildMenuId"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="templatePath" style="text-align:left !important;">Template Path :</label>
+                                <input class="form-control" id="templatePath" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="menuDesc" style="text-align:left !important;">Menu Description :</label>
+                                <textarea class="form-control" rows="5" id="menuDesc"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="displayOrder" style="text-align:left !important;">Display Order :</label>
+                                <input class="form-control" id="displayOrder" type="number" step="1">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="isActive">
+                                    <label class="form-check-label" for="isActive"
+                                        style="text-align:left !important;">IsActive</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="createMenuButton">Create Menu</button>
+            </div>
+        </div>
+    </div>
+</div>
