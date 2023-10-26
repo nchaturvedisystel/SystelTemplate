@@ -16,12 +16,12 @@ namespace Infrastructure.Persistance.Services.Common
 {
     public class UserTimeTrackingService : DABase, IUserTimeTracking
     {
-        private const string SP_UserTimeTrackingCreate = "UserTimeTracking_Create";
+        private const string SP_UserTimeTrackingCreate = "ana.UserTimeTracking_Create";
 
-        private const string SP_Dashboard_GetDetails = "Dashboard_GetDetails";
+        private const string SP_Dashboard_GetDetails = "ana.Dashboard_GetDetails";
 
         private ILogger<UserTimeTrackingService> _logger;
-        public UserTimeTrackingService(IOptions<ConnectionSettings> connectionSettings, ILogger<UserTimeTrackingService> logger) : base(connectionSettings.Value.DBCONN)
+        public UserTimeTrackingService(IOptions<ConnectionSettings> connectionSettings, ILogger<UserTimeTrackingService> logger) : base(connectionSettings.Value.AppKeyPath)
         {
             _logger = logger;
         }

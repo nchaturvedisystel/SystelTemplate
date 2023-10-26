@@ -14,7 +14,6 @@ namespace Infrastructure.Shared
             services.Configure<APISettings>(_config.GetSection("Settings"));
             services.Configure<JWTSettings>(_config.GetSection("JWT"));
             services.AddSingleton<IEncryptDecrypt, EncryptDecryptService>();
-        }
-        
+        }        
     }
 }

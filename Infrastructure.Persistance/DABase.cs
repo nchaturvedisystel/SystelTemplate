@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Settings;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -8,9 +9,12 @@ namespace Infrastructure
     {
         protected string ConnectionString { get; set; }
         public DABase() { }
-        public DABase(string connectionString)
+        public DABase(string AppKeyPath)
         {
-            ConnectionString = connectionString;
+            if (!string.IsNullOrEmpty(AppKeyPath))
+            {
+                ConnectionString = ConnectionSettings.GetConnectionString(AppKeyPath);
+            }
         }
 
         protected static T SafeRead<T>(IDataReader reader, string name, T defaultValue)

@@ -3,6 +3,8 @@ Ajax = new Object()
 /*Ajax.BaseURI = "https://localhost:44306/api/";*/
 /*DEV*/
 Ajax.BaseURI = "https://localhost:44306/";
+
+Ajax.CompanyId = 1;
 Ajax.Post = function (PostUrl, PostData, SuccessCallBack, ErrorCallBack) {
     /*PostData = {
         name: "Ipseeta",

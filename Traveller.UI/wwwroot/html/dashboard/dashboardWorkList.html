@@ -4,27 +4,193 @@
         <div class="main-heading">User WorkList</div>
     </div>
     <div>
-        <table id="DashboardTable" class="table table-bordered com_table" style="width: 100%;">
-            <thead>
-                <tr class="text-dark">
-                    <th scope="col" class="col-2" style="width: 30px; border-left: 5px solid var(--orange-col);">Part Name</th>
-                    <th scope="col" class="col-1">Work Order</th>
-                    <th scope="col" class="col-1"> Traveler</th>
-                    <th scope="col" class="col-1">Work Center</th>
-                    <th scope="col" class="col-2">Work Center Step</th>
-                    <th scope="col" class="col-1">Current Status</th>
-                    <th scope="col" class="col-1">Step Remark</th>
-                    <th scope="col" class="col-1">Activity Time</th>
-                    <th scope="col" class="col-1">Created By</th>
-                    <th scope="col" class="col-1">Assign To</th>
-                </tr>
-            </thead>
-            <tbody id="DashboardWorklistBody">
-                
-            </tbody>
-        </table>
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="TabularViewDiv" role="tabpanel">
+                <div class="nav nav-tabs tra_tab" id="nav-tab" role="tablist">
+                    <a class="active" data-toggle="tab" href="#tab1" role="tab" aria-selected="true">Work in progress</a>
+                    <a class="InProgress" data-toggle="tab" href="#tab2" role="tab" aria-selected="true">Assigned to me</a>
+                    <a data-toggle="tab" href="#tab3" role="tab" aria-selected="false">Open Tickets</a>
+                    <a data-toggle="tab" href="#tab4" role="tab" aria-selected="false">Closed Tickets</a>
+                    <a data-toggle="tab" href="#tab5" role="tab" aria-selected="false">Assigned to Others</a>
+                </div>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" style="padding-bottom: 50px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 style="color:darkblue;">Work in Progress</h3>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="bottom: 10px;" class="col-md-12">
+                                <table id="example" class="table table-bordered com_table" style="width: 100%;">
+                                    <thead>
+                                        <tr class="text-dark">
+                                            <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket No</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Company</th>
+                                            <th scope="col">Project</th>
+                                            <th scope="col">Assigned To</th>
+                                            <th scope="col">Created on</th>
+                                            <th scope="col">Ticket Status</th>
+                                            <th scope="col">Target Date</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ClientWorkInProgressListBody">
+                                        <tr>
+                                            <td colspan="7">
+                                                <font style="color:red;">No Records found..</font>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab2" role="tabpanel">
+                        <div class="row col-md-12">
+                            <div class="col-md-12">
+                                <h3 style="color:darkblue;">Assigned to Me</h3>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="bottom: 10px;" class="col-md-12">
+                                <table id="example1" class="table table-bordered com_table" style="width: 100%;">
+                                    <thead>
+                                        <tr class="text-dark">
+                                            <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket No</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Company Name</th>
+                                            <th scope="col">Project Name</th>
+                                            <th scope="col">Assigned To</th>
+                                            <th scope="col">Created on</th>
+                                            <th scope="col">Ticket Status</th>
+                                            <th scope="col">Target Date</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ClientAssignedToMeListBody">
+                                        <tr>
+                                            <td colspan="7">
+                                                <font style="color:red;">No Records found..</font>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab3" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 style="color:darkblue;">Open Tickets</h3>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="bottom: 10px;" class="col-md-12">
+                                <table id="example2" class="table table-bordered com_table" style="width: 100%;">
+                                    <thead>
+                                        <tr class="text-dark">
+                                            <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket No</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Company Name</th>
+                                            <th scope="col">Project Name</th>
+                                            <th scope="col">Assigned To</th>
+                                            <th scope="col">Created on</th>
+                                            <th scope="col">Ticket Status</th>
+                                            <th scope="col">Target Date</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ClientOpenTicketsListBody">
+                                        <tr>
+                                            <td colspan="7">
+                                                <font style="color:red;">No Records found..</font>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab4" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 style="color:darkblue;">Closed Tickets</h3>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="bottom: 10px;" class="col-md-12">
+                                <table id="example3" class="table table-bordered com_table" style="width: 100%;">
+                                    <thead>
+                                        <tr class="text-dark">
+                                            <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket No</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Company Name</th>
+                                            <th scope="col">Project Name</th>
+                                            <th scope="col">Assigned To</th>
+                                            <th scope="col">Created on</th>
+                                            <th scope="col">Ticket Status</th>
+                                            <th scope="col">Target Date</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ClientClosedTicketsListBody">
+                                        <tr>
+                                            <td colspan="7">
+                                                <font style="color:red;">No Records found..</font>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab5" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 style="color:darkblue;">Assigned to Others</h3>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="bottom: 10px;" class="col-md-12">
+                                <table id="example4" class="table table-bordered com_table" style="width: 100%;">
+                                    <thead>
+                                        <tr class="text-dark">
+                                            <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket No</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Company Name</th>
+                                            <th scope="col">Project Name</th>
+                                            <th scope="col">Assigned To</th>
+                                            <th scope="col">Created on</th>
+                                            <th scope="col">Ticket Status</th>
+                                            <th scope="col">Target Date</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ClientAssignedToOthersListBody">
+
+                                        <tr>
+                                            <td colspan="7">
+                                                <font style="color:red;">No Records found..</font>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
 

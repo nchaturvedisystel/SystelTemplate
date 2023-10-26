@@ -16,9 +16,9 @@ namespace Infrastructure.Persistance.Services.Admin
 {
     public class SubRoleService : DABase, ISubRole
     {
-        private const string SP_SubRoles_CRUD = "SubRoles_CRUD";
+        private const string SP_SubRoles_CRUD = "ana.SubRoles_CRUD";
         private ILogger<SubRoleService> _logger;
-        public SubRoleService(IOptions<ConnectionSettings> connectionSettings, ILogger<SubRoleService> logger) : base(connectionSettings.Value.DBCONN)
+        public SubRoleService(IOptions<ConnectionSettings> connectionSettings, ILogger<SubRoleService> logger) : base(connectionSettings.Value.AppKeyPath)
         {
             _logger = logger;
         }

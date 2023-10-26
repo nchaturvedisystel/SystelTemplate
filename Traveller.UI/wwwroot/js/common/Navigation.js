@@ -104,6 +104,18 @@ Navigation.CallPageLoad = function (MenuCode) {
     else if (MenuCode == "DB") {
         Dashboard.BasepageOnReady();
     }
+    else if (MenuCode == 'CSD') {
+        Ticket.BasepageOnReady();
+    }
+    else if (MenuCode == 'TDSD') {
+        TicketDetails.onReady();
+    }
+    else if (MenuCode == 'MCAD') {
+        Company.BasepageOnReady();
+    }
+    else if (MenuCode == 'TDDB') {
+        TicketDetails.onReady();
+    }
 
 }
 

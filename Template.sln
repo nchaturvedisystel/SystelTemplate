@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB.SQL", "DB.SQL", "{5833B8
 		C:\Users\amuttathu\Desktop\TemplateDB_SchemaWithData.sql = C:\Users\amuttathu\Desktop\TemplateDB_SchemaWithData.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportDesk", "SupportDesk", "{F2CA4C07-151D-4512-BBA8-6D1D73131701}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,7 @@ Global
 		{A37DC403-450C-45F6-BAC4-FC02BFB9C011} = {683D8F9A-C671-4D97-B365-F399618D13E1}
 		{DAE20111-563B-4125-B8D8-8B6C3E5A3942} = {9D92B67C-CE2D-40D7-A07B-530A7A52C9F8}
 		{30B10DD1-A7AC-4384-A06A-981778869FFD} = {81C30EAE-E8A0-4BDE-9194-A063ED4A3446}
+		{F2CA4C07-151D-4512-BBA8-6D1D73131701} = {5833B812-8FA4-4C8A-B8DF-F2C4872DB764}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9A672EC-6F81-450D-9DDA-21713C7B26C6}

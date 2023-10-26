@@ -281,7 +281,7 @@ footer.sticky-footer {padding: 1rem 0; bottom:0px; height:auto !important; posit
 .user_mang_admin_block li a small {display: block; line-height: 10px; font-weight: 300;}
 .user_mang_admin_block li:hover a {color: var(--dark-gray-col) !important; background: white; transform: scale(1.1); transition: 0.3s all ease;}
 
-.login_container {background: url(../images/login_bg.jpg) no-repeat top right; background-size: cover; height: 100%; position: relative;}
+.login_container {background: url(../../clientdata/appimages/login_bg.jpg) no-repeat top right; background-size: cover; height: 100%; position: relative;}
 .login_block {text-align: center}
 .login_block .logo {height: 50px;}
 .login_block .login_hd {color: white; font-size: 24px;}

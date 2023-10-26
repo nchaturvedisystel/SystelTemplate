@@ -12,9 +12,9 @@ namespace Infrastructure.Persistance.Services.Admin
 {
     public class UserGroupService : DABase, IUserGroup
     {
-        private const string SP_UserGroupMaster_CRUD = "UserGroupMaster_CRUD";
+        private const string SP_UserGroupMaster_CRUD = "ana.UserGroupMaster_CRUD";
         private ILogger<UserGroupService> _logger;
-        public UserGroupService(IOptions<ConnectionSettings> connectionSettings, ILogger<UserGroupService> logger) : base(connectionSettings.Value.DBCONN)
+        public UserGroupService(IOptions<ConnectionSettings> connectionSettings, ILogger<UserGroupService> logger) : base(connectionSettings.Value.AppKeyPath)
         {
             _logger = logger;
         }

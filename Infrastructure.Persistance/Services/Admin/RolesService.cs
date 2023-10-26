@@ -12,11 +12,11 @@ namespace Infrastructure.Persistance.Services.Admin
 {
     public class RolesService : DABase, IRole
     {
-        private const string SP_RolesMaster_CRUD = "RolesMaster_CRUD";
+        private const string SP_RolesMaster_CRUD = "ana.RolesMaster_CRUD";
 
 
         private ILogger<RolesService> _logger;
-        public RolesService(IOptions<ConnectionSettings> connectionSettings, ILogger<RolesService> logger) : base(connectionSettings.Value.DBCONN)
+        public RolesService(IOptions<ConnectionSettings> connectionSettings, ILogger<RolesService> logger) : base(connectionSettings.Value.AppKeyPath)
         {
             _logger = logger;
         }

@@ -1,136 +1,191 @@
 DashboardWorkList = new Object()
-DashboardWorkList.ActionUser = User.UserId
-DashboardWorkList.userList = {}
+DashboardWorkList.TicketId = 0;
+DashboardWorkList.Title = "";
+DashboardWorkList.TicketDesc = "";
+DashboardWorkList.TicketType = "";
+DashboardWorkList.Category = "";
+DashboardWorkList.TagList = "";
+DashboardWorkList.AssignedTo = "";
+DashboardWorkList.TicketStatus = "";
+DashboardWorkList.TicketPriority = "";
+DashboardWorkList.AffectsCustomer = "";
+DashboardWorkList.AppVersion = "";
+DashboardWorkList.DueDate = new Date();
+DashboardWorkList.EstimatedDuration = "";
+DashboardWorkList.ActualDuration = "";
+DashboardWorkList.TargetDate = new Date();
+DashboardWorkList.ResolutionDate = new Date();
+DashboardWorkList.IsActive = 0;
+DashboardWorkList.IsDeleted = 0;
+DashboardWorkList.TicketOwner = "";
+DashboardWorkList.ProjectId = 0;
+DashboardWorkList.CompanyId = 0;
+DashboardWorkList.CompanyName = "";
+DashboardWorkList.ProjectName = "";
+DashboardWorkList.ActionUser = 0;
+DashboardWorkList.InstructionsEditorLoaded = 0;
+DashboardWorkList.InstructionsEditor;
+DashboardWorkList.AssignedToName = "";
+DashboardWorkList.TicketResolverListObj = {};
 
 DashboardWorkList.CreateDashboardWorkListOnReady = function () {
+    loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    Ajax.CompanyId = parseInt(loggedInUser.companyId);
     DashboardWorkList.LoadAll();
-    UserMaster.LoadAll();
 }
 
 DashboardWorkList.LoadAll = function () {
-    DashboardWorkList.ActionUser = User.UserId
-    Ajax.AuthPost("user/GetUserWorkItems", DashboardWorkList, DashboardWorkList_OnSuccessCallBack, DashboardWorkList_OnErrorCallBack);
+    var newDashboardWorkList = {};
+    DashboardWorkList.ClearCRUDform();
+
+    newDashboardWorkList.ActionUser = User.UserId;
+    newDashboardWorkList.CompanyId = Ajax.CompanyId;
+    Ajax.AuthPost("menus/GetClientWorkList", newDashboardWorkList, DashboardWorkList_OnSuccessCallBack, DashboardWorkList_OnErrorCallBack);
+    var TicketResolverList = {};
+    TicketResolverList.ActionUser = User.UserId;
+    Ajax.AuthPost("Ticket/GetTicketResolverList", TicketResolverList, TicketResolverList_OnSuccessCallBack, TicketResolverList_OnErrorCallBack);
 }
 
-DashboardWorkList_OnSuccessCallBack = function (data) {
-    if (data && data.userWorkItems.length > 0) {
-        var body = document.getElementById('DashboardWorklistBody')
-        body.innerHTML = "";
-        let workitems = data.userWorkItems
-        for (var i = 0; i < workitems.length; i++) {
-            var RowHtml = '<tr>'
-                + '<td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + workitems[i].partName + '</td>'
-                + '<td>' + workitems[i].workName + '</td>'
-                + '<td>' + workitems[i].workItemName + '</td>'
-                + '<td>'
-                + '<div class="badge badge-secondary font-l" style="background-color: #' + Util.WCColors[i] + ';">' + workitems[i].workCenterCode + '</div>'
-                + '</td>'
-                + '<td>' + workitems[i].stepName + '</td>'
-                + '<td id="checkOutBtn_' + workitems[i].transitionId + '">' + workitems[i].currentStatus + '</td>'
-                + '<td>' + workitems[i].stepRemarks + '</td>'
-                + '<td>' + workitems[i].activityTime + '</td>'
-                + '<td>' + workitems[i].createdBy + '</td>'
-                + '<td id="AssignTo_' + workitems[i].transitionId + '" >'
-                + '<div onClick="DashboardWorkList.AssignWorkItem(' + workitems[i].transitionId + ',' + workitems[i].assignedId + ',' + workitems[i].currentStatus + ')"> ' + workitems[i].assignedTo + '</div>'
-                + '</td>';
+function DashboardWorkList_OnSuccessCallBack(data) {
+    //$('#CreateTicketModal').modal('hide');
 
-            RowHtml += '</tr>';
-            body.innerHTML += RowHtml;
-            var checkBtn = document.getElementById(`checkOutBtn_${workitems[i].transitionId}`);
-            if (workitems[i].currentStatus === 1) {
-                checkBtn.innerHTML = '<button class="btn btn-outline-primary rounded-pill btn-sm check-button check-in-button " onclick="DashboardWorkList.AssignStep(\'' + encodeURIComponent(JSON.stringify(workitems[i])) + '\')">Check In</button>';
-            } else if (workitems[i].currentStatus === 0) {
-                checkBtn.innerHTML = '<button class="btn btn-outline-primary rounded-pill btn-sm check-button check-out-button " onclick="DashboardWorkList.AssignStep(\'' + encodeURIComponent(JSON.stringify(workitems[i])) + '\')">Check Out</button>';
-            }
-            else if (workitems[i].currentStatus === 2) {
-                checkBtn.innerHTML = '<div class="badge bg-success font-l" style="background-color:green;">Completed</div>';
-            }
+    var ClientWorkInProgressData = data.workInProgress;
+    var ClientAssignedToMeData = data.assignedToMe;
+    var ClientOpenTicketsData = data.openTickets;
+    var ClientClosedTicketsData = data.closedTickets;
+    var ClientAssignedToOthersData = data.assignedToOthers;
 
-        }
+    var ClientWorkInProgressListBody = document.getElementById('ClientWorkInProgressListBody');
+    var ClientAssignedToMeListBody = document.getElementById('ClientAssignedToMeListBody');
+    var ClientOpenTicketsListBody = document.getElementById('ClientOpenTicketsListBody');
+    var ClientClosedTicketsListBody = document.getElementById('ClientClosedTicketsListBody');
+    var ClientAssignedToOthersListBody = document.getElementById('ClientAssignedToOthersListBody');
+
+    ClientWorkInProgressListBody.innerHTML = "";
+    ClientAssignedToMeListBody.innerHTML = "";
+    ClientOpenTicketsListBody.innerHTML = "";
+    ClientClosedTicketsListBody.innerHTML = "";
+    ClientAssignedToOthersListBody.innerHTML = "";
+
+    DashboardWorkList.BindClientUserTicketList(ClientWorkInProgressListBody, ClientWorkInProgressData);
+    DashboardWorkList.BindClientUserTicketList(ClientAssignedToMeListBody, ClientAssignedToMeData);
+    DashboardWorkList.BindClientUserTicketList(ClientOpenTicketsListBody, ClientOpenTicketsData);
+    DashboardWorkList.BindClientUserTicketList(ClientClosedTicketsListBody, ClientClosedTicketsData);
+    DashboardWorkList.BindClientUserTicketList(ClientAssignedToOthersListBody, ClientAssignedToOthersData);
+}
+
+DashboardWorkList.BindClientUserTicketList = function (tbody, ticketData) {
+    for (var i = 0; i < ticketData.length; i++) {
+        var RowHtml = ('<tr>'
+            + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + ticketData[i].ticketId + '</td>'
+            + '                <td>' + ticketData[i].title + '</td>'
+            + '                <td>' + ticketData[i].companyName + '</td>'
+            + '                <td>' + ticketData[i].projectName + '</td>'
+            + '                <td id="AssignTo_' + ticketData[i].ticketId + '">'
+            + '                <div onClick="DashboardWorkList.AssignWorkItem(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">' + ticketData[i].assignedToName + '</div>'
+            + '                 </td>'
+            // + '                 <div onClick="DashboardWorkList.AssignWorkItem(' + ticketData[i].ticketId + ',' + ticketData[i].modifiedBy + ',' + ticketData[i].assignedTo + ')"> ' + ticketData[i].assignedToName + '</div>'
+            + '                <td>' + (new Date(ticketData[i].createdOn).toLocaleDateString("en-US")) + '</td>'
+            + '                <td>' + ticketData[i].ticketStatus + '</td>'
+            + '                <td>' + (new Date(ticketData[i].targetDate).toLocaleDateString("en-US")) + '</td>'
+            + '                <td class="text-center">'
+            + '                    <div class="btn-group dots_dropdown">'
+            + '                        <button type="button" class="dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">'
+            + '                            <i class="fas fa-ellipsis-v"></i>'
+            + '                        </button>'
+            + '                        <div class="dropdown-menu dropdown-menu-right shadow-lg">'
+            //+ '                            <button class="dropdown-item" type="button" onclick="Ticket.Update(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
+            //+ '                                <i class="fa fa-edit"></i> Edit'
+            //+ '                            </button>'
+
+            //+ '                            <button class="dropdown-item" type="button" onclick="UserMaster.Delete(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
+            //+ '                                <i class="far fa-trash-alt"></i> Delete'
+            //+ '                            </button>'
+            + '                            <button class="dropdown-item" type="button" onclick="DashboardWorkList.View(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
+            + '                                <i class="far fa fa-eye"></i> View'
+            + '                            </button>'
+            + '                        </div>'
+            + '                    </div>'
+            + '                </td> '
+            + '            </tr>'
+            + '');
+        tbody.innerHTML = tbody.innerHTML + RowHtml;
     }
-    else {
-        var body = document.getElementById('DashboardWorklistBody')
-        body.innerHTML = ('<tr>'
-            + '<td  colspan = "7">'
-            + ' <font style="color:red;">No Records found..</font>'
-            + '        </td>'
-            + '    </tr>');
+    if (tbody == ClientAssignedToOthersListBody) {
+
     }
-
-
 }
 
-DashboardWorkList.AssignStep = function (data) {
-    let workListItem = JSON.parse(decodeURIComponent(data));
-
-    let workList = new Object()
-    workList.ActionUser = User.UserId
-    workList.CurrentStatus = workListItem.currentStatus
-    workList.TransitionId = workListItem.transitionId
-    Ajax.AuthPost("user/GetUserWorkItemUpdate", workList, AssignStep_OnSuccessCallBack, DashboardWorkList_OnErrorCallBack);
-}
-
-function AssignStep_OnSuccessCallBack() {
-
-    Toast.create("Success", "Check success", TOAST_STATUS.SUCCESS, 1500);
-    DashboardWorkList.LoadAll()
-}
-DashboardWorkList_OnErrorCallBack = function (err) {
+function DashboardWorkList_OnErrorCallBack(data) {
     Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
-DashboardWorkList.AssignWorkItem = function (id, assignedTo, currentStatus) {
-    if (currentStatus === 0) {
-        var userList = DashboardWorkList.userList;
-        var dropdownHTML = '<select class="form-control rounded-pill btn-sm assignDropdownList_' + id + '" onchange="DashboardWorkList.onchange(' + id + ', this)">';
-        var defaultOption = '<option value="0">Please Select...</option>'
-        dropdownHTML += defaultOption
-        for (let i = 0; i < userList.length; i++) {
-            dropdownHTML += `<option value="${userList[i].userId}">${userList[i].firstName} ${userList[i].middleName} ${userList[i].lastName}</option>`;
-        }
 
-        dropdownHTML += '</select>';
-        var cells = document.querySelectorAll(`td[id^="AssignTo_${id}"]`);
+DashboardWorkList.AssignWorkItem = function (data) {
+    let ticketdetails = JSON.parse(decodeURIComponent(data))
+    console.log(ticketdetails)
+    var body = document.getElementById(`AssignTo_${ticketdetails.ticketId}`)
+    body.innerHTML = ''
 
-        for (var i = 0; i < cells.length; i++) {
-            cells[i].innerHTML = dropdownHTML;
-        }
-
-        var dropdowns = document.querySelectorAll(`select.assignDropdownList_${id}`);
-        for (var i = 1; i < dropdowns.length; i++) {
-            dropdowns[i].style.display = "none";
-        }
-        document.getElementsByClassName(`assignDropdownList_${id}`)[0].value = assignedTo
+    // userList = [1, 2, 3, 4]
+    let ticketResolverList = DashboardWorkList.TicketResolverListObj;
+    var dropdownHTML = '<select class="form-control rounded-pill btn-sm assignDropdownList_' + ticketdetails.ticketId + '" onchange="DashboardWorkList.onchange(' + ticketdetails.ticketId + ', this)">';
+    var defaultOption = '<option value="0">Please Select...</option>'
+    dropdownHTML += defaultOption
+    for (let i = 0; i < ticketResolverList.tickets.length; i++) {
+        dropdownHTML += `<option value="${ticketResolverList.tickets[i].userId}">${ticketResolverList.tickets[i].name}</option>`;
     }
+    dropdownHTML += '</select>';
 
+    body.innerHTML = dropdownHTML
 }
 
-
-DashboardWorkList.onchange = function (id, sender) {
-    var selectedOption = sender.options[sender.selectedIndex];
-    var selectedUserName = selectedOption.textContent;
-
-    AssignObjectDashboard = {}
-    AssignObjectDashboard.TransitionId = id
-    AssignObjectDashboard.ActionUser = User.UserId
-    AssignObjectDashboard.AssignedTo = sender.value
-    Ajax.AuthPost("user/GetUserWorkItemAssign", AssignObjectDashboard, function (data) {
-        AssignObjectDashboard_OnSuccessCallBack(data, id, selectedUserName);
-    }, AssignObjectDashboard_OnErrorCallBack);
+DashboardWorkList.onchange = function (data) {
+    var body = document.getElementsByClassName(`assignDropdownList_${data}`)[0].value
+    console.log(data, body)
+    var updateAssignedTo = {};
+    updateAssignedTo.ticketId = data;
+    updateAssignedTo.assignedToId = body;
+    updateAssignedTo.ActionUser = User.UserId;
+    Ajax.AuthPost("menus/GetTicketResolverList", updateAssignedTo, UpdatedTicketResolverList_OnSuccessCallBack, UpdatedTicketResolverList_OnErrorCallBack);
+    DashboardWorkList.LoadAll();
 }
 
-function AssignObjectDashboard_OnSuccessCallBack(data, id, selectedUserName) {
+function UpdatedTicketResolverList_OnSuccessCallBack(data) {
 
-    Toast.create("Success", "Assigned Successful", TOAST_STATUS.SUCCESS, 1500);
-    var cells = document.querySelectorAll(`td[id^="AssignTo_${id}"]`);
-    for (var i = 0; i < cells.length; i++) {
-        cells[i].textContent = selectedUserName;
-    }
-    DashboardWorkList.LoadAll()
 }
-
-function AssignObjectDashboard_OnErrorCallBack(err) {
+function UpdatedTicketResolverList_OnErrorCallBack(error) {
     Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
+
+function TicketResolverList_OnSuccessCallBack(data) {
+    DashboardWorkList.TicketResolverListObj = data;
+}
+function TicketResolverList_OnErrorCallBack(error) {
+    Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
+}
+
+function DashboardWorkList_OnErrorCallBack(error) {
+    Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
+}
+DashboardWorkList.View = function (ticketData) {
+    let ticketdetails = JSON.parse(decodeURIComponent(ticketData));
+    TicketDetails.ticketId = ticketdetails.ticketId;
+    var date = new Date();
+    var RedirectUrl = '/html/support/TicketDetails.html' + '?' + date.valueOf().toString(); //Ensure to load latest changes
+    Navigation.LoadPage(RedirectUrl, 'TDDB');
+
+}
+DashboardWorkList.TicketDetails = function () {
+
+}
+DashboardWorkList.ClearCRUDform = function () {
+
+}
+
+
+
+
+
 
 
 

@@ -29,6 +29,7 @@ namespace Application.DTOs
         public string ResponseDescription { get; set; }
         public int ActionUser { get; set; }
         public string RoleId { get; set; }
+        public string CompanyId { get; set; }
     }
 
 }

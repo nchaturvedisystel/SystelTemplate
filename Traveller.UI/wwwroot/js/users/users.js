@@ -12,7 +12,8 @@ UserMaster.Designation = "";
 UserMaster.IsActive = 0;
 UserMaster.IsDeleted = 0;
 UserMaster.DOB = new Date();
-
+UserMaster.CompanyList = [];
+UserMaster.AllUserList = new Object();
 
 
 /*Base Page Start*/
@@ -28,12 +29,14 @@ UserMaster.CreateUserMasterOnReady = function () {
     UserMaster.LoadAll();
     WorkCenter.LoadAll();
     Roles.LoadAll();
+    Company.LoadAll();
 }
 
 UserMaster.LoadAll = function () {
     UserMaster.ClearObject()
     UserMaster.ActionUser = User.UserId;
     Ajax.AuthPost("users/UserMasterCrud", UserMaster, UserMasterCRUD_OnSuccessCallBack, UserMasterCRUD_OnErrorCallBack);
+
 }
 
 UserMaster.CreateNew = function(){
@@ -51,8 +54,22 @@ UserMaster.CreateNew = function(){
 
     UserMaster.ClearUserMasterCRUDForm();
     document.getElementById('profilePic').onchange = previewFile;
+    bindCompanyDropdownList();
+
 
 }
+
+function bindCompanyDropdownList() {
+    var companyDropdown = document.getElementById('UserCompany')
+    companyDropdown.innerHTML = ""
+    options = ''
+    let companylist = UserMaster.CompanyList
+    for (var i = 0; i < companylist.length; i++) {
+        options = '<option value=' + companylist[i].companyId + '>' + companylist[i].cName + '</option>'
+        companyDropdown.innerHTML = companyDropdown.innerHTML + options
+    }
+}
+
 
 function previewFile() {
     const fileInput = document.getElementById('profilePic');
@@ -103,6 +120,7 @@ UserMaster.ValidateAndCreateNewUser = function (templateFile) {
         UserMaster.MobileNo = document.getElementById('UserMobile').value;
         UserMaster.EmailId = document.getElementById('UserEmail').value;
         UserMaster.Designation = document.getElementById('UserDesignation').value;
+        UserMaster.CompanyId = document.getElementById('UserCompany').value;
         UserMaster.IsActive = document.getElementById('isUserActive').checked ? 1 : 0;
         UserMaster.DOB = document.getElementById('UserDOB').value;
         UserMaster.ActionUser = User.UserId;
@@ -140,7 +158,8 @@ function UserMasterCRUD_OnSuccessCallBack(data) {
         body.innerHTML = "";
         for (var i = 0; i < userData.length; i++) {
             var RowHtml = ('<tr>'
-                + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + userData[i].firstName +' ' + userData[i].middleName +' ' + userData[i].lastName +'</td>'
+                + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + userData[i].firstName + ' ' + userData[i].middleName + ' ' + userData[i].lastName + '</td>'
+                + '                <td>' + userData[i].companyName + '</td>'
                 + '                <td>' + userData[i].designation +'</td>'
                 + '                <td>' + userData[i].mobileNo + '</td>'
                 + '                <td>' + userData[i].emailId + '</td>'
@@ -214,11 +233,12 @@ UserMaster.Update = function (userMaster) {
     document.getElementById('userCreationForm').style.display = "block";
     document.getElementById('userWorkcenterMap').style.display = "none";
 
-
-    UserMaster.SetUserMasterCRUDForm(userMaster)
+    bindCompanyDropdownList();
+    UserMaster.SetUserMasterCRUDForm(userMaster);
     document.getElementById('modalSaveButton').onclick= UserMaster.ValidateAndUpdateUser;
     document.getElementById('profileImagePath').value = userMaster.profileImage;
     document.getElementById('profilePic').onchange = previewFile;
+    
     
 }
 
@@ -231,6 +251,7 @@ UserMaster.ValidateAndUpdateUser = function (userMaster) {
     userMaster.mobileNo = document.getElementById('UserMobile').value;
     userMaster.emailId = document.getElementById('UserEmail').value;
     userMaster.designation = document.getElementById('UserDesignation').value;
+    userMaster.companyId = document.getElementById('UserCompany').value;
     userMaster.isActive = document.getElementById('isUserActive').checked ? 1 : 0;
     userMaster.isDeleted = document.getElementById('isUserActive').checked ? 0 : 1;
     userMaster.dob = document.getElementById('UserDOB').value;
@@ -294,6 +315,7 @@ UserMaster.SetUserMasterCRUDForm = function(userMaster){
     document.getElementById('UserMobile').value = userMaster.mobileNo;
     document.getElementById('UserDOB').value = userMaster.dob.split("T")[0];
     document.getElementById('UserDesignation').value = userMaster.designation;
+    document.getElementById('UserCompany').value = userMaster.companyId;
     document.getElementById('isUserActive').checked = userMaster.isActive === 1;
     document.getElementById('profileImagePath').value = userMaster.profileImage;
 
@@ -312,6 +334,7 @@ UserMaster.ClearUserMasterCRUDForm = function(){
     document.getElementById('UserMobile').value = "";
     document.getElementById('UserDOB').value = "";
     document.getElementById('UserDesignation').value = "";
+    document.getElementById('UserCompany').value = "";
     document.getElementById('isUserActive').checked = true;
     document.getElementById('profilePic').value = "";
 
@@ -350,4 +373,28 @@ function UpdateUserStatus_OnSuccesscallback(response){
 function UpdateUserStatus_OnErrorCallBack(data){
     Toast.create("Danger","Some Error occured",TOAST_STATUS.DANGER,1500);
 }
+
+UserMaster.GetAllUserList = function () {
+    Ajax.AuthGet("users/GetAllUserList", GetAllUserList_OnSuccessCallBack, GetAllUserList_OnErrorCallBack);
+}
+function GetAllUserList_OnSuccessCallBack(data) {
+    if (data && data.dropDownList) {
+        UserMaster.AllUserList = data.dropDownList;
+    }
+}
+function GetAllUserList_OnErrorCallBack(error) {
+    Toast.create("Danger", "Some Error occured", TOAST_STATUS.DANGER, 1500);
+}
+
+UserMaster.GetUserNameById = function (id) {
+    if (UserMaster.AllUserList) {
+        for (var i = 0; i < UserMaster.AllUserList.length; i++) {
+            if (UserMaster.AllUserList[i].key == id) {
+                id = UserMaster.AllUserList[i].value;
+            }
+        }
+    }
+    return id;
+}
+
 

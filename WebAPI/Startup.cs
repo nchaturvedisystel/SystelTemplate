@@ -1,10 +1,12 @@
 using Application.Interfaces;
 using Application.Interfaces.Admin;
 using Application.Interfaces.Common;
+using Application.Interfaces.SupportDesk;
 using Application.Interfaces.User;
 using Infrastructure.Persistance.Services;
 using Infrastructure.Persistance.Services.Admin;
 using Infrastructure.Persistance.Services.Common;
+using Infrastructure.Persistance.Services.SupportDesk;
 using Infrastructure.Persistance.Services.Traveler;
 using Infrastructure.Persistance.Services.User;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Windows.Input;
 using WebAPI.Authorization;
 using WebAPI.Common.Middlewares;
 
@@ -44,14 +47,16 @@ namespace WebAPI
             services.AddTransient<IMenuContract, MenuMasterService>();
             //services.AddTransient<IGlobalSearch, GlobalSearchService>();
             services.AddTransient<IUserTimeTracking, UserTimeTrackingService>();
+            services.AddTransient<ICompany, CompanyMasterService>();
 
-           // services.AddTransient<IPushNotification, PushNotificationService>();
+            //SupportDesk Service
+            services.AddTransient<ISupportTicket, TicketService>();
+            services.AddTransient<ITicketResolverList, MenuMasterService>();
+            services.AddTransient<ITicketActivity, TicketActivityService>();
+            services.AddTransient<IClientWorkList, MenuMasterService>();
 
-
-            
             //Admin Services
             services.AddTransient<IMenuManage, MenuMasterService>();
-
 
             //Services
             services.AddTransient<IRole, RolesService>();

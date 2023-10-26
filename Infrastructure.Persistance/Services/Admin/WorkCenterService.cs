@@ -17,9 +17,9 @@ namespace Infrastructure.Persistance.Services.Traveler
     public class WorkCenterService : DABase, IWorkCenter
     {
 
-        private const string SP_WorkCenterMaster_CRUD = "WorkCenterMaster_CRUD";
+        private const string SP_WorkCenterMaster_CRUD = "ana.WorkCenterMaster_CRUD";
         private ILogger<WorkCenterService> _logger;
-        public WorkCenterService(IOptions<ConnectionSettings> connectionSettings, ILogger<WorkCenterService> logger) : base(connectionSettings.Value.DBCONN)
+        public WorkCenterService(IOptions<ConnectionSettings> connectionSettings, ILogger<WorkCenterService> logger) : base(connectionSettings.Value.AppKeyPath)
         {
             _logger = logger;
         }

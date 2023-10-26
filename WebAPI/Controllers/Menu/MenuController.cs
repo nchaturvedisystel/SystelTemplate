@@ -9,11 +9,13 @@ using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Application.Features.Menus.Commands;
 using WebAPI.Authorization;
+using Application.DTOs.SupportDesk;
+using Application.Features.SupportDesk;
 
 namespace WebAPI.Controllers.Menu
 {
     [Route("menus")]
-    [AuthorizeUser]
+    //[AuthorizeUser]
     public class MenuController : BaseApiController
     {
         APISettings _settings;
@@ -31,6 +33,23 @@ namespace WebAPI.Controllers.Menu
             MenuMasterList response = await mediator.Send(new MenuMasterCommand
             {
                 UserId = menuMasterDTO.UserId
+            });
+
+            if (response == null)
+                return Ok(APIResponse<string>.Unauthorized("Please check login credentials"));
+
+            return Ok(response);
+        }
+
+        [HttpPost("GetClientWorkList")]
+        public async Task<IActionResult> GetClientWorkList([FromBody] SupportTicketDTO supportTicketDTO)
+        {
+            ClientWorkList response = new ClientWorkList();
+
+
+            response = await mediator.Send(new ClientWorkListCommand
+            {
+                supportTicketDTO = supportTicketDTO
             });
 
             if (response == null)

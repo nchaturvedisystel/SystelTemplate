@@ -1,4 +1,5 @@
-﻿using Application.DTOs.User;
+﻿using Application.DTOs.Common;
+using Application.DTOs.User;
 using System.Threading.Tasks;
 
 namespace Application.Interfaces.User
@@ -11,6 +12,7 @@ namespace Application.Interfaces.User
         public Task<UserRoleList> UserRoleCRUD(UserRoleDTO userRoleDTO);
         public Task<UserDashboardList> UserDashboardGet(UserDashboardDTO userDashboardDTO);
         public Task<UserMasterDTO> UserStatusUpdate(UserMasterDTO userMasterDTO);
+        public Task<DropDownList> GetAllUserList();
 
     }
 }

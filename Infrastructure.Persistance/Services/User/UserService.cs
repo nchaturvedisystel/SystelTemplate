@@ -1,4 +1,6 @@
 ﻿using Application.DTOs;
+using Application.DTOs.Admin;
+using Application.DTOs.Common;
 using Application.DTOs.User;
 using Application.Interfaces;
 using Application.Interfaces.User;
@@ -18,25 +20,35 @@ namespace Infrastructure.Persistance.Services.User
     public class UserService : DABase, IUserContract, IUserMaster
     {
         APISettings _settings;
-        private const string SP_AuthenticateUser = "ValidateUserLogin";
-        private const string SP_UserMaster_CRUD = "UserMaster_CRUD";
-        private const string SP_UserLogin_CRUD = "UserLogin_CRUD";
-        private const string SP_UserWorkCenter_CRUD = "UserWorkCenter_CRUD";
-        private const string SP_UserRole_CRUD = "UserRole_CRUD";
-        private const string SP_Dashboard_GetAllUserDetails = "Dashboard_GetAllUserDetails";
-        private const string SP_UserMaster_UpdateStatus = "UserMaster_UpdateStatus";
+        ConnectionSettings _connectionSettings;
+        private const string SP_AuthenticateUser = "ana.ValidateUserLogin";
+        private const string SP_UserMaster_CRUD = "ana.UserMaster_CRUD";
+        private const string SP_UserLogin_CRUD = "ana.UserLogin_CRUD";
+        private const string SP_UserWorkCenter_CRUD = "ana.UserWorkCenter_CRUD";
+        private const string SP_UserRole_CRUD = "ana.UserRole_CRUD";
+        private const string SP_Dashboard_GetAllUserDetails = "ana.Dashboard_GetAllUserDetails";
+        private const string SP_UserMaster_UpdateStatus = "ana.UserMaster_UpdateStatus";
+        private const string SP_GetCompanyName = "ana.GetCompanyName";
+        private const string SP_UserMaster_LoadAllDDL = "ana.UserMaster_LoadAllDDL";
 
         private ILogger<UserService> _logger;
 
 
-        public UserService(IOptions<ConnectionSettings> connectionSettings, ILogger<UserService> logger, IOptions<APISettings> settings) : base(connectionSettings.Value.DBCONN)
+        public UserService(IOptions<ConnectionSettings> connectionSettings, ILogger<UserService> logger, IOptions<APISettings> settings) : base(connectionSettings.Value.AppKeyPath)
         {
             _logger = logger;
             _settings = settings.Value;
+            _connectionSettings = connectionSettings.Value;
         }
         public async Task<UserDTO> Authenticate(string companyCode, string userName, string password)
         {
             UserDTO userInfo = null;
+            if (_connectionSettings.PrintConnectionString == "Y")
+            {
+                _logger.LogInformation($"AppKeyPath :{_connectionSettings.AppKeyPath} ");
+                _logger.LogInformation($"DBCONN :{_connectionSettings.DBCONN} ");
+                _logger.LogInformation($"Connection String :{ConnectionString} ");
+            }
             _logger.LogInformation($"Started authenticate user {userName} for client id: {companyCode}");
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -45,6 +57,7 @@ namespace Infrastructure.Persistance.Services.User
                 {
                     UserName = userName,
                     UserPassword = password,
+                    CompanyId = companyCode
 
                 }, commandType: CommandType.StoredProcedure);
 
@@ -100,7 +113,8 @@ namespace Infrastructure.Persistance.Services.User
                     IsActive = userMasterDTO.IsActive,
                     IsDeleted = userMasterDTO.IsDeleted,
                     ActionUser = userMasterDTO.ActionUser,
-                    ProfileImage = filepath
+                    ProfileImage = filepath,
+                    CompanyId = userMasterDTO.CompanyId
 
 
                 }, commandType: CommandType.StoredProcedure);
@@ -233,6 +247,32 @@ namespace Infrastructure.Persistance.Services.User
                     UserId = userMasterDTO.UserId
                 }, commandType: CommandType.StoredProcedure);
             }
+            return response;
+        }
+        public async Task<DropDownList> GetAllUserList()
+        {
+            DropDownList response = new DropDownList();
+
+            _logger.LogInformation($"fetching data for User List");
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                response.dropDownList = await connection.QueryAsync<DropDownDTO>(SP_UserMaster_LoadAllDDL, commandType: CommandType.StoredProcedure);
+            }
+
+
+            return response;
+        }
+        public async Task<CompanyList> GetCompany()
+        {
+            CompanyList response = new CompanyList();
+
+            _logger.LogInformation($"fetching data for Company List");
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                response.Companies = await connection.QueryAsync<CompanyMasterDTO>(SP_GetCompanyName, commandType: CommandType.StoredProcedure);
+            }
+
+
             return response;
         }
     }
