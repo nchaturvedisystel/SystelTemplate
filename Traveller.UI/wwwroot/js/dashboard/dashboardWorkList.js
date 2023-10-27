@@ -72,12 +72,19 @@ function DashboardWorkList_OnSuccessCallBack(data) {
     DashboardWorkList.BindClientUserTicketList(ClientOpenTicketsListBody, ClientOpenTicketsData);
     DashboardWorkList.BindClientUserTicketList(ClientClosedTicketsListBody, ClientClosedTicketsData);
     DashboardWorkList.BindClientUserTicketList(ClientAssignedToOthersListBody, ClientAssignedToOthersData);
+
+    new DataTable('#ClientWorkInProgressListTbl');
+    new DataTable('#ClientAssignedToMeListTbl');
+    new DataTable('#ClientOpenTicketsListTbl');
+    new DataTable('#ClientClosedTicketsListTbl');
+    new DataTable('#ClientAssignedToOthersListTbl');
 }
 
 DashboardWorkList.BindClientUserTicketList = function (tbody, ticketData) {
     for (var i = 0; i < ticketData.length; i++) {
         var RowHtml = ('<tr>'
-            + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + ticketData[i].ticketId + '</td>'
+            + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + (i + 1).toString() + '</td>'
+            + '                <td>' + ticketData[i].title + '</td>'
             + '                <td>' + ticketData[i].title + '</td>'
             + '                <td>' + ticketData[i].companyName + '</td>'
             + '                <td>' + ticketData[i].projectName + '</td>'
@@ -94,13 +101,6 @@ DashboardWorkList.BindClientUserTicketList = function (tbody, ticketData) {
             + '                            <i class="fas fa-ellipsis-v"></i>'
             + '                        </button>'
             + '                        <div class="dropdown-menu dropdown-menu-right shadow-lg">'
-            //+ '                            <button class="dropdown-item" type="button" onclick="Ticket.Update(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
-            //+ '                                <i class="fa fa-edit"></i> Edit'
-            //+ '                            </button>'
-
-            //+ '                            <button class="dropdown-item" type="button" onclick="UserMaster.Delete(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
-            //+ '                                <i class="far fa-trash-alt"></i> Delete'
-            //+ '                            </button>'
             + '                            <button class="dropdown-item" type="button" onclick="DashboardWorkList.View(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
             + '                                <i class="far fa fa-eye"></i> View'
             + '                            </button>'

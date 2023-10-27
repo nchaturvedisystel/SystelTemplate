@@ -107,7 +107,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="Ticket.CreateNew()">Create Ticket</button>
+                <button type="button" class="btn btn-primary" id="SupportTicketSaveBtn" onclick="Ticket.CreateNew()">Create Ticket</button>
 
             </div>
         </div>
@@ -140,10 +140,11 @@
                 </div>
                 <div class="row">
                     <div style="bottom: 10px;" class="col-md-12">
-                        <table id="example" class="table table-bordered com_table" style="width: 100%;">
+                        <table id="ClientUserActiveTicketListTbl" class="table table-bordered com_table" style="width: 100%;">
                             <thead>
                                 <tr class="text-dark">
-                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket Id</th>
+                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Sr No</th>
+                                    <th scope="col">Ticket No</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Target Date</th>
                                     <th scope="col">Created</th>
@@ -172,10 +173,11 @@
                 </div>
                 <div class="row">
                     <div style="bottom: 10px;" class="col-md-12">
-                        <table id="example1" class="table table-bordered com_table" style="width: 100%;">
+                        <table id="ClientUserInProgressTicketListTbl" class="table table-bordered com_table" style="width: 100%;">
                             <thead>
                                 <tr class="text-dark">
-                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket Id</th>
+                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Sr No</th>
+                                    <th scope="col">Ticket No</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Target Date</th>
                                     <th scope="col">Created</th>
@@ -204,10 +206,11 @@
                 </div>
                 <div class="row">
                     <div style="bottom: 10px;" class="col-md-12">
-                        <table id="example2" class="table table-bordered com_table" style="width: 100%;">
+                        <table id="ClientUserClosedTicketListTbl" class="table table-bordered com_table" style="width: 100%;">
                             <thead>
                                 <tr class="text-dark">
-                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Ticket Id</th>
+                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Sr No</th>
+                                    <th scope="col">Ticket No</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Target Date</th>
                                     <th scope="col">Created</th>
