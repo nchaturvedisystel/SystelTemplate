@@ -117,7 +117,7 @@ Ticket.OpenCreateTicketModal = function () {
     Ticket.SetDefault();
     document.getElementById("WorkflowInstructionsModalLabel").innerHTML = "Create Ticket";
     document.getElementById("SupportTicketSaveBtn").innerHTML = "Create Ticket";
-    document.getElementById("SupportTicketSaveBtn").onclick = Ticket.CreateNew();
+    document.getElementById("SupportTicketSaveBtn").onclick = Ticket.CreateNew;
 }
 Ticket.CreateNew = function () {
     var newTicket = Ticket.GetDetails();
@@ -146,7 +146,8 @@ Ticket.OpenTicketUpdateModal = function (ticketData) {
     Ticket.SetDetails(ticketData);
     document.getElementById("WorkflowInstructionsModalLabel").innerHTML = ("Update Ticket - (" + ticketData.companyName + ")");
     document.getElementById("SupportTicketSaveBtn").innerHTML = "Update Ticket";
-    document.getElementById("SupportTicketSaveBtn").onclick = Ticket.UpdateTicket(ticketData);
+    document.getElementById("SupportTicketSaveBtn").onclick = function () { Ticket.UpdateTicket(ticketData)};
+
 }
 Ticket.UpdateTicket = function (ticketData) {
     var newTicket = Ticket.GetDetails();

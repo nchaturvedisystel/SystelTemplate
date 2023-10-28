@@ -58,6 +58,22 @@ namespace WebAPI.Controllers.SupportDesk
 
             return Ok(response);
         }
+        [HttpPost("ReOpenTicket")]
+        public async Task<IActionResult> ReOpenTicket([FromBody] SupportTicketDTO supportTicketDTO)
+        {
+            SupportTicketDTO response = new SupportTicketDTO();
+
+            response = await mediator.Send(new SupportTicketReOpenCommand
+            {
+                supportTicketDTO = supportTicketDTO
+            });
+
+            if (response == null)
+                return Ok(APIResponse<string>.Unauthorized("Please check login credentials"));
+
+            return Ok(response);
+        }
+
         [HttpPost("AssignToUser")]
         public async Task<IActionResult> AssignToUser([FromBody] SupportTicketDTO supportTicketDTO)
         {

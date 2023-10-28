@@ -29,6 +29,7 @@ namespace Infrastructure.Persistance.Services.SupportDesk
         private const string SP_SupportTickets_GetByUserId = "spd.SupportTickets_GetByUserId";
         private const string SP_SupportTicket_TicketWorkList = "spd.SupportTicket_TicketWorkList";
         private const string SP_SupportTicket_ForceClose = "spd.SupportTicket_ForceClose";
+        private const string SP_SupportTicket_ReOpen = "spd.SupportTicket_ReOpen";
         private const string SP_SupportTicket_AssignToUser = "spd.SupportTicket_AssignToUser";
         private ILogger<TicketService> _logger;
 
@@ -149,6 +150,29 @@ namespace Infrastructure.Persistance.Services.SupportDesk
                 using (SqlConnection connection = new SqlConnection(base.ConnectionString))
                 {
                     response = await connection.QueryFirstOrDefaultAsync<SupportTicketDTO>(SP_SupportTicket_ForceClose, new
+                    {
+                        ActionUser = supportTicketDTO.ActionUser,
+                        TicketId = supportTicketDTO.TicketId,
+                    }, commandType: CommandType.StoredProcedure);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return response;
+        }        
+        public async Task<SupportTicketDTO> SupportTickets_ReOpenTicket(SupportTicketDTO supportTicketDTO)
+        {
+            SupportTicketDTO response = new SupportTicketDTO();
+
+            _logger.LogInformation($"Force closing the Ticket : {supportTicketDTO.TicketId}");
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(base.ConnectionString))
+                {
+                    response = await connection.QueryFirstOrDefaultAsync<SupportTicketDTO>(SP_SupportTicket_ReOpen, new
                     {
                         ActionUser = supportTicketDTO.ActionUser,
                         TicketId = supportTicketDTO.TicketId,

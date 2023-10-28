@@ -13,6 +13,7 @@ namespace Application.Interfaces.SupportDesk
         public Task<ClientUserTicketList> SupportTickets_GetByUserId(SupportTicketDTO supportTicketDTO);
         public Task<TicketList> SupportTickets_GetTicketDetails(SupportTicketDTO supportTicketDTO);
         public Task<SupportTicketDTO> SupportTickets_ForceCloseTicket(SupportTicketDTO supportTicketDTO);
+        public Task<SupportTicketDTO> SupportTickets_ReOpenTicket(SupportTicketDTO supportTicketDTO);
         public Task<SupportTicketDTO> SupportTickets_AssignToUser(SupportTicketDTO supportTicketDTO);
 
     }

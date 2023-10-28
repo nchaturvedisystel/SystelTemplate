@@ -102,6 +102,7 @@
             <button type="button" id="TicketAssignBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.AssignTicketToUserOnClick()">Assign To</button>
             <button type="button" id="TicketForceCloseBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.SupportTicket_Forceclose()">Force Close</button>
             <button type="button" id="TicketEditBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.OpenEditTicketModal()">Edit</button>
+            <button type="button" id="TicketReOpenBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.SupportTicket_ReOpen()">ReOpen</button>
         </div>
     </div>
 
@@ -119,7 +120,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label><Strong>Add Comment </Strong></label>
-                                                    <div id="TemplateInstEditor"></div>
+                                                    <div id="ActivityDetailEditor"></div>
 
                                                     <button class="btn btn-primary btn-sm mt-2" onclick="TicketDetails.InsertTicketActivity()"> AddComment</button>
                                                     <button class="btn btn-sm mt-2" onclick="TicketDetails.CloseCommentDialougeOnClick()" style="outline:1px solid grey;"> Cancel</button>
@@ -190,11 +191,11 @@
 
 <!-- CreateTicketModal -->
 
-<div class="modal fade" id="EditTicketModal" tabindex="-1" role="dialog" aria-labelledby="WorkflowInstructionsModalLabel" aria-hidden="true">
+<div class="modal fade" id="CreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="WorkflowInstructionsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 850px !important;" role="document">
         <div class="modal-content">
             <div class="modal-header text-light" style="background-color: #01018f;">
-                <h5 class="modal-title font-weight-bold" id="WorkflowInstructionsModalLabel">Edit Ticket</h5>
+                <h5 class="modal-title font-weight-bold" id="WorkflowInstructionsModalLabel">Create Ticket</h5>
                 <button type="button" class="close text-light" aria-label="Close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -258,13 +259,17 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="AddField1">AddField1</label>
-                            <input type="text" class="form-control" id="AddField1">
+                            <label for="AddField1">Department</label>
+                            <input type="text" class="form-control" id="department">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="AddField2">AddField2</label>
-                            <input type="text" class="form-control" id="AddField2">
+                            <label for="AddField2">Raised By</label>
+                            <input type="text" class="form-control" id="raisedBy">
                         </div>
+                    </div>
+                    <label>Ticket Description</label>
+                    <div id="TemplateInstEditor">
+                        This is the default text.
                     </div>
                     <div class="form-row">
                     </div>
@@ -273,8 +278,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="TicketDetails.CreateNew()">Update Ticket</button>
+                <button type="button" class="btn btn-secondary" id="SupportTicketCloseBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="SupportTicketSaveBtn" onclick="Ticket.CreateNew()">Create Ticket</button>
 
             </div>
         </div>

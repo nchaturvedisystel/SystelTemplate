@@ -10,9 +10,13 @@ CurrentTicket = new Object();
 TicketDetails.InstructionsEditorLoaded = 0;
 TicketDetails.InstructionsEditor;
 
+TicketDetails.ActivityDetailEditorLoaded = 0;
+TicketDetails.ActivityDetailEditor;
+
 TicketDetails.onReady = function () {
     UserMaster.GetAllUserList();
-    TicketDetails.InitiateRTE("TemplateInstEditor");
+    TicketDetails.InitiateTicketDetailRTE();
+    TicketDetails.InitiateActivityDetailRTE();
 }
 
 //#region Load Ticket Details
@@ -40,15 +44,33 @@ TicketDetails.CheckUserOptions = function () {
     }
 }
 TicketDetails.EnableUserSpecificFunctions = function () {
+    document.getElementById("TicketCommentBtn").style.display = "block";
+    document.getElementById("TicketEditBtn").style.display = "none";
+    document.getElementById("TicketTakeOverBtn").style.display = "none";
+    document.getElementById("TicketAssignBtn").style.display = "none";
+    document.getElementById("TicketForceCloseBtn").style.display = "none";
+    document.getElementById("TicketReOpenBtn").style.display = "none";
 
     if (User.RoleId.toString().trim() == "3")//ClientUser
     {
-        document.getElementById("TicketCommentBtn").style.display = "block";
-        document.getElementById("TicketEditBtn").style.display = "block";
-
-        document.getElementById("TicketTakeOverBtn").style.display = "none";
-        document.getElementById("TicketAssignBtn").style.display = "none";
-        document.getElementById("TicketForceCloseBtn").style.display = "none";
+        if (CurrentTicket.TicketStatus == "Close" || CurrentTicket.TicketStatus == "Force Closed") {
+            document.getElementById("TicketReOpenBtn").style.display = "block";
+        }
+        else if (CurrentTicket.TicketStatus == "Open" || CurrentTicket.TicketStatus == "ReOpen") {
+            document.getElementById("TicketEditBtn").style.display = "block";
+            document.getElementById("TicketForceCloseBtn").style.display = "block";
+        }
+    }
+    else {
+        if (CurrentTicket.TicketStatus == "Close" || CurrentTicket.TicketStatus == "Force Closed") {
+            document.getElementById("TicketReOpenBtn").style.display = "block";
+        }
+        else {//if (CurrentTicket.TicketStatus == "Open" || CurrentTicket.TicketStatus == "ReOpen") 
+            document.getElementById("TicketEditBtn").style.display = "block";
+            document.getElementById("TicketTakeOverBtn").style.display = "block";
+            document.getElementById("TicketAssignBtn").style.display = "block";
+            document.getElementById("TicketForceCloseBtn").style.display = "block";
+        }
     }
 }
 function LoadTicketDetail_OnSuccessCallBack(data) {
@@ -124,7 +146,11 @@ TicketDetails.SetCurrentTicket = function (data) {
         TicketStatus: data.ticketStatus,
         TicketType: data.ticketType,
         Title: data.title,
-        UserId: data.userId
+        UserId: data.userId,
+        Department: data.department,
+        RaisedBy: data.raisedBy,
+        IsActive: data.isActive,
+        IsDeleted: data.isDeleted
     };
 
 }
@@ -148,16 +174,30 @@ TicketDetails.DateTimeFormat = function (date) {
 
     return date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear() + " " + strTime;
 }
-TicketDetails.InitiateRTE = function (id) {
-    if (document.getElementById(id)) {
-        var editorId = ("#" + id);
+TicketDetails.InitiateTicketDetailRTE = function () {
+    if (document.getElementById("TemplateInstEditor")) {
+        var editorId = ("#TemplateInstEditor");
 
         TicketDetails.InstructionsEditor = new RichTextEditor(editorId);
+        TicketDetails.InstructionsEditorLoaded = 1;
         TicketDetails.LoadTicketDetail();
     }
     else {
         setTimeout(function () {
-            TicketDetails.InitiateRTE(id);
+            TicketDetails.InitiateTicketDetailRTE();
+        }, 1000);
+    }
+}
+TicketDetails.InitiateActivityDetailRTE = function () {
+    if (document.getElementById("ActivityDetailEditor")) {
+        var editorId = ("#ActivityDetailEditor");
+
+        TicketDetails.ActivityDetailEditor = new RichTextEditor(editorId);
+        TicketDetails.ActivityDetailEditorLoaded = 1;
+    }
+    else {
+        setTimeout(function () {
+            TicketDetails.InitiateActivityDetailRTE();
         }, 1000);
     }
 }
@@ -195,6 +235,18 @@ function SupportTicket_Forceclose_OnSuccessCallBack(data) {
 function SupportTicket_Forceclose_OnErrorCallBack(err) {
     Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
+TicketDetails.SupportTicket_ReOpen = function () {
+    CurrentTicket.TicketStatus = "ReOpen";
+    CurrentTicket.ActionUser = User.UserId
+    Ajax.AuthPost("ticket/ReOpenTicket", CurrentTicket, SupportTicket_ReOpen_OnSuccessCallBack, SupportTicket_ReOpen_OnErrorCallBack);
+}
+function SupportTicket_ReOpen_OnSuccessCallBack(data) {
+    TicketDetails.ticketId = data.ticketId;
+    TicketDetails.LoadTicketDetail();
+}
+function SupportTicket_ReOpen_OnErrorCallBack(err) {
+    Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
+}
 TicketDetails.AssignTicketToUserOnClick = function () {
     if (!$('#AssignTicketToUserDiv').is(':visible')) {
         $("#AssignTicketToUserDiv").slideToggle();
@@ -212,7 +264,7 @@ TicketDetails.LoadTicketActivity = function (ticketId) {
 }
 TicketDetails.InsertTicketActivity = function () {
     var ticketActivity = new Object();
-    ticketActivity.ticketComments = TicketDetails.InstructionsEditor.getHTML();
+    ticketActivity.ticketComments = TicketDetails.ActivityDetailEditor.getHTML();
     ticketActivity.ticketId = TicketDetails.ticketId;
     ticketActivity.createdBy = (TicketDetails.UserId).toString();
     Ajax.AuthPost("Ticket/TicketComments", ticketActivity, InsertTicketActivity_OnSuccessCallBack, InsertTicketActivity_OnErrorCallBack);
@@ -226,7 +278,7 @@ function InsertTicketActivity_OnSuccessCallBack(data) {
             + '<div class="card mb-3">'
             + '<div class="card-header" >'
             + '            <div><b>' + UserMaster.GetUserNameById(ticketActivities[i].createdBy) + '</b></div>'
-            + '            <small class="text-muted">' + TicketDetails.DateTimeFormat(ticketActivities[i].modifiedOn) + '</small>'
+            + '            <small class="text-muted">' + TicketDetails.DateTimeFormat(ticketActivities[i].createdOn) + '</small>'
             + '        </div>'
             + '<div class="card-body">' + ticketActivities[i].ticketComments + '</div>'
             + '</div> '
@@ -240,7 +292,7 @@ function InsertTicketActivity_OnErrorCallBack(err) {
     Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
 TicketDetails.ClearActivityForm = function () {
-    TicketDetails.InstructionsEditor.setPlainText("");
+    TicketDetails.ActivityDetailEditor.setPlainText("");
 }
 //#endregion
 
@@ -272,6 +324,104 @@ function AssignTicketToSupportUser_OnSuccessCallBack(data) {
 function AssignTicketToSupportUser_OnErrorCallBack() {
     Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
+
+//#region Update Ticket Details
 TicketDetails.OpenEditTicketModal = function () {
-    $('#EditTicketModal').modal('show');
+
+    var ticketData = CurrentTicket;
+    if (TicketDetails.InstructionsEditorLoaded == 0) {
+        TicketDetails.InstructionsEditor = new RichTextEditor("#TemplateInstEditor");
+        TicketDetails.InstructionsEditorLoaded = 1;
+    }
+    $('#CreateTicketModal').modal('show');
+    TicketDetails.SetDetails(ticketData);
+    document.getElementById("WorkflowInstructionsModalLabel").innerHTML = ("Update Ticket - (" + ticketData.companyName + ")");
+    document.getElementById("SupportTicketSaveBtn").innerHTML = "Update Ticket";
+    document.getElementById("SupportTicketSaveBtn").onclick = function () { TicketDetails.UpdateTicket(ticketData) };
+
 }
+TicketDetails.UpdateTicket = function (ticketData) {
+    var newTicket = TicketDetails.GetDetails();
+    newTicket.TicketId = ticketData.TicketId;
+    newTicket.TicketStatus = ticketData.TicketStatus;
+    newTicket.IsActive = ticketData.IsActive;
+    newTicket.IsDeleted = ticketData.IsDeleted;
+    newTicket.ActionUser = User.UserId;
+
+    if (TicketDetails.ValidateData(newTicket)) {
+        Ajax.AuthPost("ticket/ManageTicket", newTicket, UpdateTicketDetails_OnSuccessCallBack, UpdateTicketDetails_OnErrorCallBack);
+    }
+}
+function UpdateTicketDetails_OnSuccessCallBack(data) {
+    TicketDetails.LoadTicketDetail();
+    $('#CreateTicketModal').modal('hide');
+}
+function UpdateTicketDetails_OnErrorCallBack(error) {
+    console.error(error);
+}
+
+
+//#endregion
+
+//#region Get/Set/Clear/Validation
+TicketDetails.GetDetails = function () {
+    var ticketData = {};
+    ticketData.Title = document.getElementById("title").value;
+    ticketData.TicketDesc = TicketDetails.InstructionsEditor.getHTML();
+    ticketData.TicketType = document.getElementById("ticketType").value;
+    ticketData.Category = document.getElementById("category").value;
+    ticketData.TagList = document.getElementById("tags").value;
+    ticketData.TicketPriority = document.getElementById("priority").value;
+    ticketData.AffectsCustomer = document.getElementById("affectsCustomer").checked.toString();
+    ticketData.TargetDate = new Date(document.getElementById("targetDate").value);
+    ticketData.ProjectId = document.getElementById("project").value;
+    ticketData.Department = document.getElementById("department").value;
+    ticketData.RaisedBy = document.getElementById("raisedBy").value;
+    ticketData.ActionUser = User.UserId;
+    ticketData.CompanyId = Ajax.CompanyId;
+    return ticketData;
+}
+TicketDetails.SetDetails = function (ticketData) {
+    document.getElementById("title").value = ticketData.Title;
+    TicketDetails.InstructionsEditor.setHTML(ticketData.TicketDesc);
+    document.getElementById("ticketType").value = ticketData.TicketType;
+    document.getElementById("category").value = ticketData.Category;
+    document.getElementById("tags").value = ticketData.TagList;
+    document.getElementById("priority").value = ticketData.TicketPriority;
+    document.getElementById("affectsCustomer").checked = (ticketData.AffectsCustomer?.toLowerCase?.() === 'true');
+    document.getElementById("targetDate").value = new Date(ticketData.TargetDate).toDateString();
+    document.getElementById("project").value = ticketData.ProjectId;
+    document.getElementById("department").value = ticketData.Department;
+    document.getElementById("raisedBy").value = ticketData.RaisedBy;
+}
+TicketDetails.ClearForm = function () {
+    if (TicketDetails.InstructionsEditorLoaded > 0) {
+        document.getElementById("title").value = "";
+        TicketDetails.InstructionsEditor.setHTML("");
+        document.getElementById("ticketType").value = "";
+        document.getElementById("category").value = "";
+        document.getElementById("tags").value = "";
+        document.getElementById("priority").value = "";
+        document.getElementById("affectsCustomer").value = true;
+        document.getElementById("targetDate").value = new Date().addDays(3).toDateString();
+        document.getElementById("project").value = "";
+        document.getElementById("department").value = "";
+        document.getElementById("raisedBy").value = "";
+    }
+}
+TicketDetails.ValidateData = function (ticketData) {
+    var validated = true;
+    var ValidationMsg = " Please provide ";
+    ValidationMsg += (ticketData.Title.trim() === '') ? " Title," : '';
+    ValidationMsg += (ticketData.Category.trim() === '') ? " Category," : '';
+    ValidationMsg += (ticketData.TicketPriority.trim() === '') ? " Priority," : '';
+    ValidationMsg += (ticketData.TicketType.trim() === '') ? " Type," : '';
+    ValidationMsg += (ticketData.TagList.trim() === '') ? " Tag," : '';
+
+    if (ValidationMsg.trim() != "Please provide") {
+        alert(ValidationMsg);
+        validated = false;
+    }
+    return validated;
+}
+//#endregion
