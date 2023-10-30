@@ -363,3 +363,7 @@ footer.sticky-footer {padding: 1rem 0; bottom:0px; height:auto !important; posit
 #MainNavigationBar .nav-item:hover .collapse
 #MainNavigationBar .nav-item.clicked .collapse { display: block;}
 #MainNavigationBar .collapse { display: none;}
+
+.dataTables_wrapper {
+    overflow-y: scroll !important;
+}
