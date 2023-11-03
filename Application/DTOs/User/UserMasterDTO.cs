@@ -31,6 +31,7 @@ namespace Application.DTOs.User
         public string AssignedWC { get; set; }
         public int CompanyId { get; set; }
         public string CompanyName { get; set;}
+        public string RoleName { get; set;}
     }
 
     public class UserList

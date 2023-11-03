@@ -365,5 +365,6 @@ footer.sticky-footer {padding: 1rem 0; bottom:0px; height:auto !important; posit
 #MainNavigationBar .collapse { display: none;}
 
 .dataTables_wrapper {
-    overflow-y: scroll !important;
+    overflow-y: clip;
+    overflow-x: inherit;
 }
