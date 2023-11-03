@@ -368,3 +368,22 @@ footer.sticky-footer {padding: 1rem 0; bottom:0px; height:auto !important; posit
     overflow-y: clip;
     overflow-x: inherit;
 }
+
+.dataTables_wrapper .dataTables_paginate .paginate_button
+{
+    padding: 0px !important;
+    margin-left: 0px !important;
+}
+.dataTables_wrapper .dataTables_length select {
+    width: 60px !important;
+    margin: 0px 10px 0px 10px !important;
+    padding: 0px 8px 0px 7px !important;
+}
+.dataTables_wrapper label {
+    display: flex;
+    margin-bottom: .5rem;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+}
+    
