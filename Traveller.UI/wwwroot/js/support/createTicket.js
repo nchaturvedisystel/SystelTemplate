@@ -96,6 +96,8 @@ function Ticket_OnErrorCallBack(data) {
 }
 Ticket.BindClientUserTicketList = function (tbody, ticketData) {
     for (var i = 0; i < ticketData.length; i++) {
+        var clickEventData = {};
+        clickEventData.ticketId = ticketData[i].ticketId;
         var RowHtml = ('<tr>'
             + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + (i + 1).toString() + '</td>'
             + '                <td>' + ticketData[i].ticketId + '</td>'
@@ -110,7 +112,7 @@ Ticket.BindClientUserTicketList = function (tbody, ticketData) {
             + '                            <i class="fas fa-ellipsis-v"></i>'
             + '                        </button>'
             + '                        <div class="dropdown-menu dropdown-menu-right shadow-lg">'
-            + '                            <button class="dropdown-item" type="button" onclick="DashboardWorkList.View(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
+            + '                            <button class="dropdown-item" type="button" onclick="DashboardWorkList.View(\'' + encodeURIComponent(JSON.stringify(clickEventData)) + '\')">'
             + '                                <i class="far fa fa-eye"></i> View'
             + '                            </button>'
             //+ '                            <button class="dropdown-item" type="button" onclick="Ticket.OpenTicketUpdateModal(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
@@ -223,6 +225,7 @@ Ticket.GetDetails = function () {
     ticketData.ProjectId = document.getElementById("project").value;
     ticketData.Department = document.getElementById("department").value;
     ticketData.RaisedBy = document.getElementById("raisedBy").value;
+    ticketData.AddField3 = document.getElementById("raisedByContactNo").value;
     ticketData.ActionUser = User.UserId;
     ticketData.CompanyId = Ajax.CompanyId;
     return ticketData;
@@ -255,6 +258,7 @@ Ticket.SetDetails = function (ticketData) {
     document.getElementById("project").value = ticketData.projectId;
     document.getElementById("department").value = ticketData.department;
     document.getElementById("raisedBy").value = ticketData.raisedBy;
+    document.getElementById("raisedByContactNo").value = ticketData.AddField3;
 }
 Ticket.ClearForm = function () {
     if (Ticket.InstructionsEditorLoaded > 0) {
@@ -269,19 +273,23 @@ Ticket.ClearForm = function () {
         document.getElementById("project").value = "";
         document.getElementById("department").value = "";
         document.getElementById("raisedBy").value = "";
+        document.getElementById("raisedByContactNo").value = "";
     }
 }
 Ticket.ValidateData = function (ticketData) {
     var validated = true;
     var ValidationMsg = " Please provide ";
-    ValidationMsg += (ticketData.Title.trim() === '') ? " Title," : '';
-    ValidationMsg += (ticketData.Category.trim() === '') ? " Category," : '';
-    ValidationMsg += (ticketData.TicketPriority.trim() === '') ? " Priority," : '';
-    ValidationMsg += (ticketData.TicketType.trim() === '') ? " Type," : '';
-    ValidationMsg += (ticketData.TagList.trim() === '') ? " Tag," : '';
+    ValidationMsg += (ticketData.Title.trim() === '') ? " <font color='red'>Title</font>," : '';
+    ValidationMsg += (ticketData.Category.trim() === '') ? " <font color='red'>Category</font>," : '';
+    ValidationMsg += (ticketData.TicketPriority.trim() === '') ? " <font color='red'>Priority</font>," : '';
+    ValidationMsg += (ticketData.TicketType.trim() === '') ? " <font color='red'>Type</font>," : '';
+    ValidationMsg += (ticketData.TagList.trim() === '') ? " <font color='red'>Tag</font>," : '';
+    ValidationMsg += (ticketData.RaisedBy.trim() === '') ? " <font color='red'>Raised By</font>," : '';
+    ValidationMsg += (ticketData.AddField3.trim() === '') ? " <font color='red'>Raised By Contact No.</font>," : '';
 
     if (ValidationMsg.trim() != "Please provide") {
-        alert(ValidationMsg);
+        Util.DisplayAutoCloseErrorPopUp(ValidationMsg,1500);
+        //alert(ValidationMsg);
         validated = false;
     }
     return validated;

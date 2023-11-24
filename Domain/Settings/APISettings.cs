@@ -5,6 +5,7 @@
         public string UploadPath { get; set; }
         public string ApiRootFolder { get; set; }
         public string UIRootFolder { get; set; }
+        public string DocumentUploadBaseUrl { get; set; }
     }
     
     public class JWTSettings

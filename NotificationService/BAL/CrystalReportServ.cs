@@ -3,9 +3,6 @@ using CrystalDecisions.Shared;
 using NotificationService.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NotificationService.BAL
 {
@@ -35,6 +32,7 @@ namespace NotificationService.BAL
             catch (Exception ex)
             {
                 logging.LogError("NotificationService.CrystalReportServ/GeneratePDFReport : " + ex.Message);
+                Environment.Exit(1);
                 throw ex;
             }
         }

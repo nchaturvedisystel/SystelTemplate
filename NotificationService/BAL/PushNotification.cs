@@ -109,6 +109,7 @@ namespace NotificationService.BAL
                     item.Passwrd = encryptDecryptService.DecryptValue(item.Passwrd);
                     SendEmail(item, emailConfigurationDTO);
                     RunPostSendAction(item);
+                    DeleteAttachmentFile(item);
                 }
             }
             catch (Exception ex)
@@ -204,6 +205,24 @@ namespace NotificationService.BAL
             catch (Exception ex)
             {
                 logging.LogError("Systel.Notification.BAL.PushNotification/RunPostSendAction : " + ex.Message);
+                throw ex;
+            }
+        }
+        public void DeleteAttachmentFile(PushNotificationDTO pushNotificationDTO)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(pushNotificationDTO.AttachmentPath))
+                {
+                    if (File.Exists(pushNotificationDTO.AttachmentPath))
+                    {
+                        File.Delete(pushNotificationDTO.AttachmentPath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logging.LogError("Systel.Notification.BAL.PushNotification/DeleteAttachmentFile : " + ex.Message);
                 throw ex;
             }
         }

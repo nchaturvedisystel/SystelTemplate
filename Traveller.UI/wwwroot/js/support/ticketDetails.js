@@ -87,7 +87,8 @@ function LoadTicketDetail_OnSuccessCallBack(data) {
     document.getElementById("detailTicketOwnedBy").innerHTML = UserMaster.GetUserNameById(ticketDetail.ownedBy);
     document.getElementById("detailTicketTag").innerHTML = ticketDetail.tagList;
     document.getElementById("detailTicketDesc").innerHTML = ticketDetail.ticketDesc;
-    document.getElementById("detailTicketDueDate").innerHTML = TicketDetails.DateFormat(ticketDetail.dueDate);
+    document.getElementById("detailTicketRaisedBy").innerHTML = ticketDetail.raisedBy;
+    document.getElementById("detailTicketRaisedByContactNo").innerHTML = ticketDetail.addField3;
     document.getElementById("detailTicketTargetDate").innerHTML = TicketDetails.DateFormat(ticketDetail.targetDate);
     document.getElementById("detailTicketResolutionDate").innerHTML = TicketDetails.DateFormat(ticketDetail.resolutionDate);
     document.getElementById("detailTicketUpdatedBy").innerHTML = UserMaster.GetUserNameById(ticketDetail.modifiedBy);
@@ -250,6 +251,7 @@ function SupportTicket_ReOpen_OnErrorCallBack(err) {
 TicketDetails.AssignTicketToUserOnClick = function () {
     if (!$('#AssignTicketToUserDiv').is(':visible')) {
         $("#AssignTicketToUserDiv").slideToggle();
+        TicketAsignee.LoadAll();
     }
 }
 TicketDetails.CloseAssignTicketToUserOnClick = function () {
@@ -292,10 +294,11 @@ function InsertTicketActivity_OnErrorCallBack(err) {
     Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
 TicketDetails.ClearActivityForm = function () {
-    TicketDetails.ActivityDetailEditor.setPlainText("");
+    TicketDetails.ActivityDetailEditor.setHTML("");
 }
 //#endregion
 
+//#region Assign Ticket to Support User
 function TicketResolverDropDown_OnSuccessCallBack(data) {
     var resolverList = data.tickets;
     var assignToList = document.getElementById("assignToList");
@@ -324,6 +327,7 @@ function AssignTicketToSupportUser_OnSuccessCallBack(data) {
 function AssignTicketToSupportUser_OnErrorCallBack() {
     Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
+//#endregion
 
 //#region Update Ticket Details
 TicketDetails.OpenEditTicketModal = function () {
@@ -377,6 +381,7 @@ TicketDetails.GetDetails = function () {
     ticketData.ProjectId = document.getElementById("project").value;
     ticketData.Department = document.getElementById("department").value;
     ticketData.RaisedBy = document.getElementById("raisedBy").value;
+    ticketData.AddField3 = document.getElementById("raisedByContactNo").value;
     ticketData.ActionUser = User.UserId;
     ticketData.CompanyId = Ajax.CompanyId;
     return ticketData;
@@ -393,6 +398,7 @@ TicketDetails.SetDetails = function (ticketData) {
     document.getElementById("project").value = ticketData.ProjectId;
     document.getElementById("department").value = ticketData.Department;
     document.getElementById("raisedBy").value = ticketData.RaisedBy;
+    document.getElementById("raisedByContactNo").value = ticketData.AddField3;
 }
 TicketDetails.ClearForm = function () {
     if (TicketDetails.InstructionsEditorLoaded > 0) {
@@ -407,6 +413,7 @@ TicketDetails.ClearForm = function () {
         document.getElementById("project").value = "";
         document.getElementById("department").value = "";
         document.getElementById("raisedBy").value = "";
+        document.getElementById("raisedByContactNo").value = "";
     }
 }
 TicketDetails.ValidateData = function (ticketData) {
