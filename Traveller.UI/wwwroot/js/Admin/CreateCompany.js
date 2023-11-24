@@ -18,6 +18,7 @@ Company.isActive = 0;
 Company.isDeleted = 0;
 Company.CType = "";
 Company.ActionUser = "";
+Company.CompanyMasterTblDT = {};
 
 Company.BasepageOnReady = function () {
     loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -37,8 +38,17 @@ function GetCompany_OnSuccessCallBack(data) {
     if (Navigation.MenuCode == "USRL") {
         UserMaster.CompanyList = data.companies
     } else {
+        if ($.fn.dataTable.isDataTable('#CompanyMasterTbl')) {
+            Company.CompanyMasterTblDT = $('#CompanyMasterTbl').DataTable();
+            Company.CompanyMasterTblDT.destroy();
+        }
         body = document.getElementById('CompaniesListBody')
         Company.BindCompaniesList(body, data.companies)
+
+        Company.CompanyMasterTblDT = $('#CompanyMasterTbl').DataTable();
+
+        //new DataTable('#CompanyMasterTbl');
+
         $('#CreateCompany_Modal').modal('hide');
     }
 }
@@ -48,7 +58,8 @@ Company.BindCompaniesList = function (Cbody, CompanyData) {
     Cbody.innerHTML = ''
     for (var i = 0; i < CompanyData.length; i++) {
         var RowHtml = ('<tr>'
-            + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + CompanyData[i].companyId + '</td>'
+            + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + (i + 1).toString() + '</td>'
+            + '                <td>' + CompanyData[i].companyId + '</td>'
             + '                <td>' + CompanyData[i].cName + '</td>'
             + '                <td>' + CompanyData[i].cCode + '</td>'
             + '                <td>' + CompanyData[i].email + '</td>'

@@ -28,6 +28,12 @@ DashboardWorkList.InstructionsEditor;
 DashboardWorkList.AssignedToName = "";
 DashboardWorkList.TicketResolverListObj = {};
 
+DashboardWorkList.ClientWorkInProgressListTblDT = {};
+DashboardWorkList.ClientAssignedToMeListTblDT = {};
+DashboardWorkList.ClientOpenTicketsListTblDT = {};
+DashboardWorkList.ClientClosedTicketsListTblDT = {};
+DashboardWorkList.ClientAssignedToOthersListTblDT = {};
+
 DashboardWorkList.CreateDashboardWorkListOnReady = function () {
     loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     Ajax.CompanyId = parseInt(loggedInUser.companyId);
@@ -55,6 +61,23 @@ function DashboardWorkList_OnSuccessCallBack(data) {
     var ClientClosedTicketsData = data.closedTickets;
     var ClientAssignedToOthersData = data.assignedToOthers;
 
+    if ($.fn.DataTable.isDataTable('#ClientWorkInProgressListTbl')) {
+        Ticket.ClientWorkInProgressListTblDT = $('#ClientWorkInProgressListTbl').DataTable();
+        Ticket.ClientWorkInProgressListTblDT.destroy();
+
+        Ticket.ClientAssignedToMeListTblDT = $('#ClientAssignedToMeListTbl').DataTable();
+        Ticket.ClientAssignedToMeListTblDT.destroy();
+
+        Ticket.ClientOpenTicketsListTblDT = $('#ClientOpenTicketsListTbl').DataTable();
+        Ticket.ClientOpenTicketsListTblDT.destroy();
+
+        Ticket.ClientClosedTicketsListTblDT = $('#ClientClosedTicketsListTbl').DataTable();
+        Ticket.ClientClosedTicketsListTblDT.destroy();
+
+        Ticket.ClientAssignedToOthersListTblDT = $('#ClientAssignedToOthersListTbl').DataTable();
+        Ticket.ClientAssignedToOthersListTblDT.destroy();
+    }
+
     var ClientWorkInProgressListBody = document.getElementById('ClientWorkInProgressListBody');
     var ClientAssignedToMeListBody = document.getElementById('ClientAssignedToMeListBody');
     var ClientOpenTicketsListBody = document.getElementById('ClientOpenTicketsListBody');
@@ -73,27 +96,43 @@ function DashboardWorkList_OnSuccessCallBack(data) {
     DashboardWorkList.BindClientUserTicketList(ClientClosedTicketsListBody, ClientClosedTicketsData);
     DashboardWorkList.BindClientUserTicketList(ClientAssignedToOthersListBody, ClientAssignedToOthersData);
 
-    new DataTable('#ClientWorkInProgressListTbl');
-    new DataTable('#ClientAssignedToMeListTbl');
-    new DataTable('#ClientOpenTicketsListTbl');
-    new DataTable('#ClientClosedTicketsListTbl');
-    new DataTable('#ClientAssignedToOthersListTbl');
+
+    Ticket.ClientWorkInProgressListTblDT  = $('#ClientWorkInProgressListTbl').DataTable({
+        columnDefs: [{ "width": "5%", "targets": [0, 0] }, { "width": "8%", "targets": [1, 2, 3, 5, 6, 7, 8, 9] }, { "width": "34%", "targets": [4] }]
+    });
+
+    Ticket.ClientAssignedToMeListTblDT = $('#ClientAssignedToMeListTbl').DataTable({
+        columnDefs: [{ "width": "5%", "targets": [0, 10] }, { "width": "8%", "targets": [1, 2, 3, 5, 6, 7, 8, 9] }, { "width": "34%", "targets": [4] }]
+    });
+
+    Ticket.ClientOpenTicketsListTblDT = $('#ClientOpenTicketsListTbl').DataTable({
+        columnDefs: [{ "width": "5%", "targets": [0, 10] }, { "width": "8%", "targets": [1, 2, 3, 5, 6, 7, 8, 9] }, { "width": "34%", "targets": [4] }]
+    });
+
+    Ticket.ClientClosedTicketsListTblDT = $('#ClientClosedTicketsListTbl').DataTable({
+        columnDefs: [{ "width": "5%", "targets": [0, 10] }, { "width": "8%", "targets": [1, 2, 3, 5, 6, 7, 8, 9] }, { "width": "34%", "targets": [4] }]
+    });
+
+    Ticket.ClientAssignedToOthersListTblDT = $('#ClientAssignedToOthersListTbl').DataTable({
+        columnDefs: [{ "width": "5%", "targets": [0, 10] }, { "width": "8%", "targets": [1, 2, 3, 5, 6, 7, 8, 9] }, { "width": "34%", "targets": [4] }]
+    });
+
 }
 
 DashboardWorkList.BindClientUserTicketList = function (tbody, ticketData) {
     for (var i = 0; i < ticketData.length; i++) {
+        var clickEventData = {};
+        clickEventData.ticketId = ticketData[i].ticketId;
         var RowHtml = ('<tr>'
             + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + (i + 1).toString() + '</td>'
-            + '                <td>' + ticketData[i].title + '</td>'
-            + '                <td>' + ticketData[i].title + '</td>'
-            + '                <td>' + ticketData[i].companyName + '</td>'
-            + '                <td>' + ticketData[i].projectName + '</td>'
-            + '                <td id="AssignTo_' + ticketData[i].ticketId + '">'
-            + '                <div onClick="DashboardWorkList.AssignWorkItem(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">' + ticketData[i].assignedToName + '</div>'
-            + '                 </td>'
-            // + '                 <div onClick="DashboardWorkList.AssignWorkItem(' + ticketData[i].ticketId + ',' + ticketData[i].modifiedBy + ',' + ticketData[i].assignedTo + ')"> ' + ticketData[i].assignedToName + '</div>'
+            + '                <td>' + ticketData[i].raisedBy + '</td>'
+            + '                <td>' + ticketData[i].ticketId + '</td>'
             + '                <td>' + (new Date(ticketData[i].createdOn).toLocaleDateString("en-US")) + '</td>'
+            + '                <td title="' + ticketData[i].title + '" >' + ticketData[i].title + '</td>'
+            + '                <td>' + ticketData[i].assignedToName + '</td>'
             + '                <td>' + ticketData[i].ticketStatus + '</td>'
+            + '                <td title="' + ticketData[i].companyName + '" >' + ticketData[i].companyCode + '</td>'
+            + '                <td>' + (new Date(ticketData[i].targetDate).toLocaleDateString("en-US")) + '</td>'
             + '                <td>' + (new Date(ticketData[i].targetDate).toLocaleDateString("en-US")) + '</td>'
             + '                <td class="text-center">'
             + '                    <div class="btn-group dots_dropdown">'
@@ -101,7 +140,7 @@ DashboardWorkList.BindClientUserTicketList = function (tbody, ticketData) {
             + '                            <i class="fas fa-ellipsis-v"></i>'
             + '                        </button>'
             + '                        <div class="dropdown-menu dropdown-menu-right shadow-lg">'
-            + '                            <button class="dropdown-item" type="button" onclick="DashboardWorkList.View(\'' + encodeURIComponent(JSON.stringify(ticketData[i])) + '\')">'
+            + '                            <button class="dropdown-item" type="button" onclick="DashboardWorkList.View(\'' + encodeURIComponent(JSON.stringify(clickEventData)) + '\')">'
             + '                                <i class="far fa fa-eye"></i> View'
             + '                            </button>'
             + '                        </div>'

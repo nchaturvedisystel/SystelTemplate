@@ -43,24 +43,31 @@ namespace Infrastructure.Persistance.Services.User
         public async Task<UserDTO> Authenticate(string companyCode, string userName, string password)
         {
             UserDTO userInfo = null;
-            if (_connectionSettings.PrintConnectionString == "Y")
+            try
             {
-                _logger.LogInformation($"AppKeyPath :{_connectionSettings.AppKeyPath} ");
-                _logger.LogInformation($"DBCONN :{_connectionSettings.DBCONN} ");
-                _logger.LogInformation($"Connection String :{ConnectionString} ");
-            }
-            _logger.LogInformation($"Started authenticate user {userName} for client id: {companyCode}");
-
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                userInfo = await connection.QuerySingleOrDefaultAsync<UserDTO>(SP_AuthenticateUser, new
+                if (_connectionSettings.PrintConnectionString == "Y")
                 {
-                    UserName = userName,
-                    UserPassword = password,
-                    CompanyId = companyCode
+                    _logger.LogInformation($"AppKeyPath :{_connectionSettings.AppKeyPath} ");
+                    _logger.LogInformation($"DBCONN :{_connectionSettings.DBCONN} ");
+                    _logger.LogInformation($"Connection String :{ConnectionString} ");
+                }
+                _logger.LogInformation($"Started authenticate user {userName} for client id: {companyCode}");
 
-                }, commandType: CommandType.StoredProcedure);
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    userInfo = await connection.QuerySingleOrDefaultAsync<UserDTO>(SP_AuthenticateUser, new
+                    {
+                        UserName = userName,
+                        UserPassword = password,
+                        CompanyId = companyCode
 
+                    }, commandType: CommandType.StoredProcedure);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             return userInfo;

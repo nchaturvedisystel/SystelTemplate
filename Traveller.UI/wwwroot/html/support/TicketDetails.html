@@ -41,8 +41,12 @@
                     <td><label id="detailTicketStatus">Active</label> </td>
                 </tr>
                 <tr>
-                    <th>Due Date</th>
-                    <td><span id="detailTicketDueDate">-</span></td>
+                    <th>Raised By</th>
+                    <td><span id="detailTicketRaisedBy">-</span></td>
+                </tr>
+                <tr>
+                    <th>Raised By Contact No</th>
+                    <td><span id="detailTicketRaisedByContactNo">-</span></td>
                 </tr>
                 <tr>
                     <th>Target Date</th>
@@ -61,11 +65,7 @@
                     <td><span id="detailTicketUpdatedOn">-</span></td>
                 </tr>
                 <tr>
-                    <th>Status By</th>
-                    <td><span id="detailTicketStartBy">-</span></td>
-                </tr>
-                <tr>
-                    <th>Start Date</th>
+                    <th>Work Start Date</th>
                     <td><span id="detailTicketStartOn">-</span></td>
                 </tr>
                 <tr>
@@ -138,7 +138,7 @@
     </div>
 
     <div id="AssignTicketToUserDiv" style="display:none;">
-        <div class="container-fluid " id="test">
+        <div class="container-fluid " id="test" style="display:none;">
             <div class="row">
                 <div class="col-md-12">
                     <div class="ticket-details">
@@ -149,8 +149,8 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label><Strong>Assign Ticket to Support User </Strong></label><br/>
-                                                    <select  class="form-control" id="assignToList" style="width:150px;" ></select><br/>
+                                                    <label><Strong>Assign Ticket to Support User </Strong></label><br />
+                                                    <select class="form-control" id="assignToList1" style="width:150px;"></select><br />
                                                     <button class="btn btn-primary btn-sm mt-2" onclick="TicketDetails.AssignTicketToSupportUser_OnClick()"> Assign</button>
                                                     <button class="btn btn-sm mt-2" onclick="TicketDetails.CloseAssignTicketToUserOnClick()" style="outline:1px solid grey;"> Cancel</button>
                                                 </div>
@@ -160,6 +160,59 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid " id="MultiAsigneeSection">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="dataFormDiv">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Assign To</label>
+                                <select class="form-control" id="assignToList"></select>
+                            </div>
+                            <div class="col-md-1">
+                                <label>Work Ratio</label>
+                                <input id="TicketAsigneeWorkRatio" class="form-control" type="number" max="100" min="0" value="100" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Description</label><br />
+                                <input id="TicketAsigneeDescription" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <br />
+                                <button class="btn btn-primary btn-sm mt-2" onclick="TicketAsignee.SaveAsignee()" id="TicketAsigneeSaveUpdateBtn"> Save</button>
+                                <button class="btn btn-sm mt-2" onclick="TicketAsignee.ClearAsigneeForm()" style="outline:1px solid grey;"> Cancel</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br/>
+                        </div>
+                    </div>
+                    <div id="dataTableDiv">
+                        <table id="TicketAsigneeListTbl" class="table table-bordered com_table" style="width: 100%;">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Sr No</th>
+                                    <th scope="col">Assigned To</th>
+                                    <th scope="col">Work Ratio</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Assigned By</th>
+                                    <th scope="col">Current Status</th>
+                                    <th scope="col">Action</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="TicketAsigneeListBody">
+                                <tr>
+                                    <td colspan="7">
+                                        <font style="color:red;">No Records found..</font>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -265,6 +318,10 @@
                         <div class="form-group col-md-4">
                             <label for="AddField2">Raised By</label>
                             <input type="text" class="form-control" id="raisedBy">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="AddField2">Raised By Contact No.</label>
+                            <input type="text" class="form-control" id="raisedByContactNo">
                         </div>
                     </div>
                     <label>Ticket Description</label>

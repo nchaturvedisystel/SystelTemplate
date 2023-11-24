@@ -94,6 +94,10 @@
                             <label for="AddField2">Raised By</label>
                             <input type="text" class="form-control" id="raisedBy">
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="AddField2">Raised By Contact no.</label>
+                            <input type="text" class="form-control" id="raisedByContactNo">
+                        </div>
                     </div>
                     <label>Ticket Description</label>
                     <div id="TemplateInstEditor">
@@ -124,7 +128,8 @@
 
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="TabularViewDiv" role="tabpanel">
-        <div class="nav nav-tabs tra_tab" id="nav-tab" role="tablist">
+        <!--Tabs-->
+        <div class="nav nav-tabs tra_tab" id="nav-tab" role="tablist" onmouseout="window.dispatchEvent(new Event('resize'));">
             <a class="active" data-toggle="tab" href="#tab1" role="tab" aria-selected="true">Active Tickets</a>
             <a class="InProgress" data-toggle="tab" href="#tab2" role="tab" aria-selected="true">In Progress Tickets</a>
             <a data-toggle="tab" href="#tab3" role="tab" aria-selected="false">Closed Tickets</a>
@@ -143,13 +148,13 @@
                         <table id="ClientUserActiveTicketListTbl" class="table table-bordered com_table" style="width: 100%;">
                             <thead>
                                 <tr class="text-dark">
-                                    <th style="border-left: 5px solid var(--orange-col);" scope="col">Sr No</th>
+                                    <th style="border-left: 5px solid var(--orange-col); " scope="col">Sr No</th>
                                     <th scope="col">Ticket No</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Target Date</th>
                                     <th scope="col">Created</th>
                                     <th scope="col">Assigned To</th>
-                                    <th scope="col">Updated</th>
+                                    <th scope="col">Updated On</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -182,7 +187,7 @@
                                     <th scope="col">Target Date</th>
                                     <th scope="col">Created</th>
                                     <th scope="col">Assigned To</th>
-                                    <th scope="col">Updated</th>
+                                    <th scope="col">Updated On</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -215,7 +220,7 @@
                                     <th scope="col">Target Date</th>
                                     <th scope="col">Created</th>
                                     <th scope="col">Assigned To</th>
-                                    <th scope="col">Updated</th>
+                                    <th scope="col">Updated On</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>

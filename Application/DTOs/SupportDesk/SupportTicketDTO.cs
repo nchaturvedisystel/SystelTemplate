@@ -36,6 +36,7 @@ namespace Application.DTOs.SupportDesk
         public int ProjectId { get; set; }
         public int CompanyId { get; set; }
         public string CompanyName { get; set; }
+        public string CompanyCode { get; set; }
         public string ProjectName { get; set; }
         public int ActionUser { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -48,6 +49,7 @@ namespace Application.DTOs.SupportDesk
         public string NAME { get; set; }
         public int AssignedToId { get; set; }
         public int UserId { get; set; }
+        public string CreatedByName { get; set; }
 
     }
 

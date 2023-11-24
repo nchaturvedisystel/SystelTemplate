@@ -15,6 +15,8 @@ UserMaster.DOB = new Date();
 UserMaster.CompanyList = [];
 UserMaster.AllUserList = new Object();
 
+UserMaster.ViewAllUsersTblDT = {};
+
 
 /*Base Page Start*/
 UserMaster.BasePageOnReady = function () {
@@ -149,60 +151,69 @@ function UserMasterCRUD_OnSuccessCallBack(data) {
     else if (Navigation.MenuCode == "URAD") {
         WorkItem.userList = data.users;
     }
-    else
-    {
-    $('#userListModal').modal('hide');
-    if(data.users && data.users.length>0){
-        let userData = data.users;
-        var body = document.getElementById('TemplateListBody');
-        body.innerHTML = "";
-        for (var i = 0; i < userData.length; i++) {
-            var RowHtml = ('<tr>'
-                + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + userData[i].firstName + ' ' + userData[i].middleName + ' ' + userData[i].lastName + '</td>'
-                + '                <td>' + userData[i].companyName + '</td>'
-                + '                <td>' + userData[i].designation +'</td>'
-                + '                <td>' + userData[i].mobileNo + '</td>'
-                + '                <td>' + userData[i].emailId + '</td>'
-                + '                <td>' + userData[i].username + '</td>'
-                + '                <td>' + userData[i].createdBy + '</td>'
-                + '                <td class="col-3">' + userData[i].assignedWC + '</td>'
-                + '                <td>' 
-                + '                     <input type="checkbox" id="employeeIsActive"' + (userData[i].isActive ? ' checked' : '') + ' onchange="UserMaster.EmployeeStatusUpdate(this,\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')" >' 
-                + '                </td>'
-                + '                <td class="text-center">' 
-				+ '                    <div class="btn-group dots_dropdown">' 
-				+ '                        <button type="button" class="dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">' 
-				+ '                            <i class="fas fa-ellipsis-v"></i>' 
-				+ '                        </button>' 
-				+ '                        <div class="dropdown-menu dropdown-menu-right shadow-lg">' 
-				+ '                            <button class="dropdown-item" type="button" onclick="UserMaster.Update(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')">' 
-				+ '                                <i class="fa fa-edit"></i> Edit' 
-				+ '                            </button>' 
-				+ '                            <button class="dropdown-item" type="button" onclick="UserMaster.Delete(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')">' 
-				+ '                                <i class="far fa-trash-alt"></i> Delete' 
-				+ '                            </button>' 
-                + '                            <button class="dropdown-item" type="button" onclick="UserWorkCenter.AssignWorkcenter(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')" >' 
-				+ '                                <i class="fa fa-sign-in-alt"></i> Assign Workcenter' 
-				+ '                            </button>' 
-                + '                            <button class="dropdown-item" type="button" onclick="UserRole.AssignRole(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')" >' 
-				+ '                                <i class="fa fa-plus"></i> Assign Role' 
-				+ '                            </button>' 
-                + '                        </div>' 
-				+ '                    </div>' 
-                + '                </td> '
-                + '            </tr>'
-                + '');
+    else {
+        $('#userListModal').modal('hide');
+        if (data.users && data.users.length > 0) {
 
-            body.innerHTML = body.innerHTML + RowHtml;
+            if ($.fn.dataTable.isDataTable('#ViewAllUsersTbl')) {
+                UserMaster.ViewAllUsersTblDT = $('#ViewAllUsersTbl').DataTable();
+                UserMaster.ViewAllUsersTblDT.destroy();
+            }
+
+
+            let userData = data.users;
+            var body = document.getElementById('TemplateListBody');
+            body.innerHTML = "";
+            for (var i = 0; i < userData.length; i++) {
+                var RowHtml = ('<tr>'
+                    + '                <td class="dtr-control sorting_1" style="border-left: 5px solid #' + Util.WCColors[i] + ';">' + (i + 1).toString() + '</td>'
+                    + '                <td>' + userData[i].firstName + ' ' + userData[i].middleName + ' ' + userData[i].lastName + '</td>'
+                    + '                <td>' + userData[i].companyName + '</td>'
+                    + '                <td>' + userData[i].designation + '</td>'
+                    + '                <td>' + userData[i].mobileNo + '</td>'
+                    + '                <td>' + userData[i].emailId + '</td>'
+                    + '                <td>' + userData[i].username + '</td>'
+                    + '                <td>' + userData[i].createdBy + '</td>'
+                    + '                <td class="col-3">' + userData[i].roleName + '</td>'
+                    + '                <td>'
+                    + '                     <input type="checkbox" id="employeeIsActive"' + (userData[i].isActive ? ' checked' : '') + ' onchange="UserMaster.EmployeeStatusUpdate(this,\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')" >'
+                    + '                </td>'
+                    + '                <td class="text-center">'
+                    + '                    <div class="btn-group dots_dropdown">'
+                    + '                        <button type="button" class="dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">'
+                    + '                            <i class="fas fa-ellipsis-v"></i>'
+                    + '                        </button>'
+                    + '                        <div class="dropdown-menu dropdown-menu-right shadow-lg">'
+                    + '                            <button class="dropdown-item" type="button" onclick="UserMaster.Update(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')">'
+                    + '                                <i class="fa fa-edit"></i> Edit'
+                    + '                            </button>'
+                    + '                            <button class="dropdown-item" type="button" onclick="UserMaster.Delete(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')">'
+                    + '                                <i class="far fa-trash-alt"></i> Delete'
+                    + '                            </button>'
+                    + '                            <button class="dropdown-item" type="button" onclick="UserWorkCenter.AssignWorkcenter(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')" >'
+                    + '                                <i class="fa fa-sign-in-alt"></i> Assign Workcenter'
+                    + '                            </button>'
+                    + '                            <button class="dropdown-item" type="button" onclick="UserRole.AssignRole(\'' + encodeURIComponent(JSON.stringify(userData[i])) + '\')" >'
+                    + '                                <i class="fa fa-plus"></i> Assign Role'
+                    + '                            </button>'
+                    + '                        </div>'
+                    + '                    </div>'
+                    + '                </td> '
+                    + '            </tr>'
+                    + '');
+
+                body.innerHTML = body.innerHTML + RowHtml;
+            }
+            UserMaster.ViewAllUsersTblDT = $('#ViewAllUsersTbl').DataTable();
+            //new DataTable('#ViewAllUsersTbl');
+        } else {
+            var body = document.getElementById("TemplateListBody");
+            body.innerHTML = ('<tr>'
+                + '<td  colspan = "7">'
+                + ' <font style="color:red;">No Records found..</font>'
+                + '        </td>'
+                + '    </tr>');
         }
-    }else {
-        var body = document.getElementById("TemplateListBody");
-        body.innerHTML = ('<tr>'
-            + '<td  colspan = "7">'
-            + ' <font style="color:red;">No Records found..</font>'
-            + '        </td>'
-            + '    </tr>');
-    }
     }
 }
 function UserMasterCRUD_OnErrorCallBack(error) {
