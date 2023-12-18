@@ -31,6 +31,7 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             AttachmentPanel = new Panel();
+            AttachmentTypeCB = new ComboBox();
             AttachmentTypeLabel = new Label();
             HasAttachmentCB = new CheckBox();
             AlertTypeCB = new ComboBox();
@@ -40,7 +41,6 @@
             ServiceNameTB = new TextBox();
             label1 = new Label();
             tabPage2 = new TabPage();
-            AttachmentTypeCB = new ComboBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             AttachmentPanel.SuspendLayout();
@@ -82,6 +82,14 @@
             AttachmentPanel.Name = "AttachmentPanel";
             AttachmentPanel.Size = new Size(556, 100);
             AttachmentPanel.TabIndex = 7;
+            // 
+            // AttachmentTypeCB
+            // 
+            AttachmentTypeCB.FormattingEnabled = true;
+            AttachmentTypeCB.Location = new Point(125, 6);
+            AttachmentTypeCB.Name = "AttachmentTypeCB";
+            AttachmentTypeCB.Size = new Size(121, 23);
+            AttachmentTypeCB.TabIndex = 1;
             // 
             // AttachmentTypeLabel
             // 
@@ -162,14 +170,6 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Schedular Details";
             tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // AttachmentTypeCB
-            // 
-            AttachmentTypeCB.FormattingEnabled = true;
-            AttachmentTypeCB.Location = new Point(125, 6);
-            AttachmentTypeCB.Name = "AttachmentTypeCB";
-            AttachmentTypeCB.Size = new Size(121, 23);
-            AttachmentTypeCB.TabIndex = 1;
             // 
             // ServiceDetail
             // 
