@@ -116,6 +116,15 @@ Navigation.CallPageLoad = function (MenuCode) {
     else if (MenuCode == 'TDDB') {
         TicketDetails.onReady();
     }
+    else if (MenuCode == 'SDAD') {
+        SupportDashBoard.AdminOnReady();
+    }
+    else if (MenuCode == 'SDCD') {
+        SupportDashBoard.ClientOnReady();
+    }
+    else if (MenuCode == 'SDUD') {
+        SupportDashBoard.UserOnReady();
+    }
 
 }
 
@@ -150,5 +159,5 @@ function TrackTime_OnSuccessCallBack(data) {
 
 }
 function TrackTime_OnErrorCallBack(err) {
-
+    Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }

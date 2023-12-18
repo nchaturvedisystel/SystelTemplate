@@ -132,6 +132,7 @@
     <Compile Include="Common\DBConn.cs" />
     <Compile Include="Common\EncryptDecryptService.cs" />
     <Compile Include="Common\Logging.cs" />
+    <Compile Include="EncryptDecryptService.cs" />
     <Compile Include="Interface\IDBConnection.cs" />
     <Compile Include="Interface\IEmailConfiguration.cs" />
     <Compile Include="Interface\INotificationMaster.cs" />

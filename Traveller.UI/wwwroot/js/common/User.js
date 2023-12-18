@@ -8,6 +8,8 @@ User.Designation = "";
 User.EmailId = "";
 User.MobileNo = "";
 User.RoleId = "";
+User.CompanyId = "";
+User.DefaultCompanyId = "";
 
 
 User.Signout = function () {
@@ -43,4 +45,6 @@ User.SetValues = function (data) {
     User.EmailId = data.emailId;
     User.MobileNo = data.mobileNo;
     User.RoleId = data.roleId;
+    User.CompanyId = data.companyId;
+    User.DefaultCompanyId = data.defaultCompanyId;
 }

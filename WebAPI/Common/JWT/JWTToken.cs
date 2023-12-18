@@ -44,7 +44,9 @@ namespace WebAPI
                 Param2 = _encryptDecrypt.EncryptValue(users.Designation),
                 Param3 = _encryptDecrypt.EncryptValue(users.EmailId),
                 Param4 = _encryptDecrypt.EncryptValue(users.MobileNo),
-                Param5 = _encryptDecrypt.EncryptValue(users.RoleId.ToString())
+                Param5 = _encryptDecrypt.EncryptValue(users.RoleId.ToString()),
+                Param6 = _encryptDecrypt.EncryptValue(users.CompanyId.ToString()),
+                Param7 = _encryptDecrypt.EncryptValue(users.DefaultCompanyId.ToString()),
             };
 
             string strClaimdata = JsonConvert.SerializeObject(session);
@@ -90,7 +92,9 @@ namespace WebAPI
                     Designation = _encryptDecrypt.DecryptValue(sessionParam.Param2),
                     EmailId = _encryptDecrypt.DecryptValue(sessionParam.Param3),
                     MobileNo = _encryptDecrypt.DecryptValue(sessionParam.Param4),
-                    RoleId = _encryptDecrypt.DecryptValue(sessionParam.Param5)
+                    RoleId = _encryptDecrypt.DecryptValue(sessionParam.Param5),
+                    CompanyId = _encryptDecrypt.DecryptValue(sessionParam.Param6),
+                    DefaultCompanyId = _encryptDecrypt.DecryptValue(sessionParam.Param7)                    
                 };
 
             }

@@ -35,9 +35,8 @@ Company.LoadAll = function () {
 }
 
 function GetCompany_OnSuccessCallBack(data) {
-    if (Navigation.MenuCode == "USRL") {
-        UserMaster.CompanyList = data.companies
-    } else {
+    if (Navigation.MenuCode == "MCAD") {
+
         if ($.fn.dataTable.isDataTable('#CompanyMasterTbl')) {
             Company.CompanyMasterTblDT = $('#CompanyMasterTbl').DataTable();
             Company.CompanyMasterTblDT.destroy();
@@ -50,6 +49,8 @@ function GetCompany_OnSuccessCallBack(data) {
         //new DataTable('#CompanyMasterTbl');
 
         $('#CreateCompany_Modal').modal('hide');
+    } else {
+        UserMaster.CompanyList = data.companies;
     }
 }
 

@@ -37,8 +37,8 @@
                                             <th scope="col">Assigned To</th>
                                             <th scope="col">Ticket Status</th>
                                             <th scope="col">Company</th>
-                                            <th scope="col">Work Start Date</th>
                                             <th scope="col">Target Date</th>
+                                            <th scope="col">Last Action</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -73,8 +73,8 @@
                                             <th scope="col">Assigned To</th>
                                             <th scope="col">Ticket Status</th>
                                             <th scope="col">Company</th>
-                                            <th scope="col">Work Start Date</th>
                                             <th scope="col">Target Date</th>
+                                            <th scope="col">Last Action</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -109,8 +109,8 @@
                                             <th scope="col">Assigned To</th>
                                             <th scope="col">Ticket Status</th>
                                             <th scope="col">Company</th>
-                                            <th scope="col">Work Start Date</th>
                                             <th scope="col">Target Date</th>
+                                            <th scope="col">Last Action</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -127,9 +127,34 @@
                     </div>
                     <div class="tab-pane fade" id="tab4" role="tabpanel">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <h3 style="color:darkblue;">Closed Tickets</h3>
                                 <br />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        Start Date
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-auto">
+                                            <input type="date" class="form-control form-control-sm" id="ClosedTicketsStartDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        End Date
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-auto">
+                                            <input type="date" class="form-control form-control-sm" id="ClosedTicketsEndDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="col-auto">
+                                            <button class="btn btn-primary btn-sm" onclick="DashboardWorkList.LoadAll()">Load Data</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -145,8 +170,8 @@
                                             <th scope="col">Assigned To</th>
                                             <th scope="col">Ticket Status</th>
                                             <th scope="col">Company</th>
-                                            <th scope="col">Work Start Date</th>
                                             <th scope="col">Target Date</th>
+                                            <th scope="col">Last Action</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -181,8 +206,8 @@
                                             <th scope="col">Assigned To</th>
                                             <th scope="col">Ticket Status</th>
                                             <th scope="col">Company</th>
-                                            <th scope="col">Work Start Date</th>
                                             <th scope="col">Target Date</th>
+                                            <th scope="col">Last Action</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>

@@ -114,6 +114,8 @@ namespace Infrastructure.Persistance.Services
                     {
                         ActionUser = supportTicketDTO.ActionUser,
                         CompanyId = supportTicketDTO.CompanyId,
+                        StartDate = supportTicketDTO.StartDate,
+                        EndDate = supportTicketDTO.EndDate,
                     }, commandType: CommandType.StoredProcedure);
 
                     response.WorkInProgress = await reader.ReadAsync<SupportTicketDTO>();

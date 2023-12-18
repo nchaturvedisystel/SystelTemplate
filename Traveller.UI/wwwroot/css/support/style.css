@@ -22,3 +22,8 @@
 .action_buttons button {background-color: white; border : 1px solid #a0a0a0; color: #303e3d;}
 .action_buttons button:hover, .action_buttons button:active {background-color: #303e3d !important; border : 1px solid #303e3d !important; color: white;}
 .assign_side_action_btn a {display: block; text-decoration: none; font-size: 12px; margin-bottom: 5px; color: #666;}
+
+.total_ticket_bg {background-color: rgb(254 237 230 / 30%);}
+.open_ticket_bg {background-color: rgb(252 227 235 / 44%);}
+.close_ticket_bg {background-color: rgb(235 228 245 / 31%);}
+.inprogress_ticket_bg {background-color: rgb(214 242 237 / 32%);}

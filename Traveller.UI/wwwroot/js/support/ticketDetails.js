@@ -44,7 +44,7 @@ TicketDetails.CheckUserOptions = function () {
     }
 }
 TicketDetails.EnableUserSpecificFunctions = function () {
-    document.getElementById("TicketCommentBtn").style.display = "block";
+    document.getElementById("TicketCommentBtn").style.display = "none";
     document.getElementById("TicketEditBtn").style.display = "none";
     document.getElementById("TicketTakeOverBtn").style.display = "none";
     document.getElementById("TicketAssignBtn").style.display = "none";
@@ -57,6 +57,7 @@ TicketDetails.EnableUserSpecificFunctions = function () {
             document.getElementById("TicketReOpenBtn").style.display = "block";
         }
         else if (CurrentTicket.TicketStatus == "Open" || CurrentTicket.TicketStatus == "ReOpen") {
+            document.getElementById("TicketCommentBtn").style.display = "block";
             document.getElementById("TicketEditBtn").style.display = "block";
             document.getElementById("TicketForceCloseBtn").style.display = "block";
         }
@@ -66,6 +67,7 @@ TicketDetails.EnableUserSpecificFunctions = function () {
             document.getElementById("TicketReOpenBtn").style.display = "block";
         }
         else {//if (CurrentTicket.TicketStatus == "Open" || CurrentTicket.TicketStatus == "ReOpen") 
+            document.getElementById("TicketCommentBtn").style.display = "block";
             document.getElementById("TicketEditBtn").style.display = "block";
             document.getElementById("TicketTakeOverBtn").style.display = "block";
             document.getElementById("TicketAssignBtn").style.display = "block";
@@ -97,6 +99,7 @@ function LoadTicketDetail_OnSuccessCallBack(data) {
     document.getElementById("detailTicketCreatedOn").innerHTML = TicketDetails.DateFormat(ticketDetail.createdOn);
     document.getElementById("detailTicketEstimatedDuration").innerHTML = ticketDetail.estimatedDuration;
     document.getElementById("detailTicketActualDuration").innerHTML = ticketDetail.actualDuration;
+    document.getElementById("RaisedByClientDiv").innerHTML = ("Ticket Raised By : <font style='color:blue;'>" + ticketDetail.companyName + "</font>");
 
     TicketDetails.UserId = User.UserId;
     TicketDetails.LoadTicketActivity(ticketDetail.ticketId);

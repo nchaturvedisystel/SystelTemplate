@@ -1,0 +1,135 @@
+﻿<div class="container-fluid">
+    <div class="inner_container pt-4">
+        <div class="row align-items-center">
+            <div class="row" style="width:100%;">
+                <div class="col-md-3 mb-4">
+                    <div class="main-heading mb-2 pb-2">Admin Dashboard</div>
+                </div>
+                <div class="col-md-3 mb-4">
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="row">
+                        <div class="col-md-2 mb-4">
+                            Start Date
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="col-auto">
+                                <input type="date" class="form-control form-control-sm" id="AdminDBStartDate">
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            End Date
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="col-auto">
+                                <input type="date" class="form-control form-control-sm" id="AdminDBEndDate">
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="col-auto">
+                                <button class="btn btn-primary btn-sm" onclick="SupportDashBoard.LoadAdminDashboard()">Load Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col mb-4">
+                <div class="com_card p-3 h-100 total_ticket_bg">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <img src="../../img/Support/total_ticket.png" />
+                        </div>
+                        <div class="col">
+                            <div class="font-sb">Total Tickets</div>
+                            <div class="font-sb h3" id="TotalTicketsDiv">-|-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-4">
+                <div class="com_card p-3 h-100 open_ticket_bg">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <img src="../../img/Support/open_ticket.png" />
+                        </div>
+                        <div class="col">
+                            <div class="font-sb">Open Tickets</div>
+                            <div class="font-sb h3" id="OpenTicketsDiv">-|-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-4">
+                <div class="com_card p-3 h-100 close_ticket_bg">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <img src="../../img/Support/close_ticket.png">
+                        </div>
+                        <div class="col">
+                            <div class="font-sb">Close Tickets</div>
+                            <div class="font-sb h3" id="CloseTicketsDiv" >-|-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-4">
+                <div class="com_card p-3 h-100 inprogress_ticket_bg">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <img src="../../img/Support/inprogress_ticket.png">
+                        </div>
+                        <div class="col">
+                            <div class="font-sb">In Progress Tickets</div>
+                            <div class="font-sb h3" id="InProgressTicketsDiv" >-|-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="com_card">
+                    <div class="font-sb h6 mb-3">Priority Wise</div>
+                    <div id="PriorityWisePieChart" style="width: 100%; height: 250px;"></div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="com_card">
+                    <div class="font-sb h6 mb-3">Category Wise</div>
+                    <div id="CategoryWisePieChart" style="width: 100%; height: 250px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="com_card">
+                    <div class="row">
+                        <div class="col">
+                            <div class="font-sb h6 mb-3">Client Wise</div>
+                        </div>
+                    </div>
+                    <div id="ClientWiseChart" style="width: 100%; height: 250px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="com_card">
+                    <div class="font-sb h6 mb-3">Agents Performance Overview</div>
+                    <div id="AgentPerformanceChart" style="width:100%; height:300px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /.container-fluid -->
+
