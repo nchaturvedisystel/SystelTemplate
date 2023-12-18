@@ -30,6 +30,14 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <div class="form-row" id="CompanySelectionOption" style="display:none;">
+                        <div class="form-group col-md-6">
+                            <label for="CompanyList" style="color:#F24800;">Company selection is mandatory where Support user is creating the Ticket</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                                <select class="form-control" id="CompanyList" ></select>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="project">Project Name</label>
@@ -152,7 +160,8 @@
                                     <th scope="col">Ticket No</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Target Date</th>
-                                    <th scope="col">Created</th>
+                                    <th scope="col">Created On</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Assigned To</th>
                                     <th scope="col">Updated On</th>
                                     <th scope="col">Action</th>
@@ -185,7 +194,8 @@
                                     <th scope="col">Ticket No</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Target Date</th>
-                                    <th scope="col">Created</th>
+                                    <th scope="col">Created On</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Assigned To</th>
                                     <th scope="col">Updated On</th>
                                     <th scope="col">Action</th>
@@ -218,7 +228,8 @@
                                     <th scope="col">Ticket No</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Target Date</th>
-                                    <th scope="col">Created</th>
+                                    <th scope="col">Created On</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Assigned To</th>
                                     <th scope="col">Updated On</th>
                                     <th scope="col">Action</th>

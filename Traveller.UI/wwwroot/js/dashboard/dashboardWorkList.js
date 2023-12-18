@@ -34,10 +34,18 @@ DashboardWorkList.ClientOpenTicketsListTblDT = {};
 DashboardWorkList.ClientClosedTicketsListTblDT = {};
 DashboardWorkList.ClientAssignedToOthersListTblDT = {};
 
-DashboardWorkList.CreateDashboardWorkListOnReady = function () {
-    loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    Ajax.CompanyId = parseInt(loggedInUser.companyId);
-    DashboardWorkList.LoadAll();
+DashboardWorkList.CreateDashboardWorkListOnReady = function () { 
+    if (document.getElementById("ClosedTicketsStartDate")) {
+        DashboardWorkList.LoadDefaultDates();
+        loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        Ajax.CompanyId = parseInt(loggedInUser.companyId);
+        DashboardWorkList.LoadAll();
+    }
+    else {
+        setTimeout(function () {
+            DashboardWorkList.CreateDashboardWorkListOnReady();
+        }, 1000);
+    }
 }
 
 DashboardWorkList.LoadAll = function () {
@@ -46,7 +54,10 @@ DashboardWorkList.LoadAll = function () {
 
     newDashboardWorkList.ActionUser = User.UserId;
     newDashboardWorkList.CompanyId = Ajax.CompanyId;
-    Ajax.AuthPost("menus/GetClientWorkList", newDashboardWorkList, DashboardWorkList_OnSuccessCallBack, DashboardWorkList_OnErrorCallBack);
+    newDashboardWorkList.StartDate = $("#ClosedTicketsStartDate").val();
+    newDashboardWorkList.EndDate = $("#ClosedTicketsEndDate").val();
+
+    Ajax.AuthPost("Ticket/GetClientWorkList", newDashboardWorkList, DashboardWorkList_OnSuccessCallBack, DashboardWorkList_OnErrorCallBack);
     var TicketResolverList = {};
     TicketResolverList.ActionUser = User.UserId;
     Ajax.AuthPost("Ticket/GetTicketResolverList", TicketResolverList, TicketResolverList_OnSuccessCallBack, TicketResolverList_OnErrorCallBack);
@@ -133,7 +144,7 @@ DashboardWorkList.BindClientUserTicketList = function (tbody, ticketData) {
             + '                <td>' + ticketData[i].ticketStatus + '</td>'
             + '                <td title="' + ticketData[i].companyName + '" >' + ticketData[i].companyCode + '</td>'
             + '                <td>' + (new Date(ticketData[i].targetDate).toLocaleDateString("en-US")) + '</td>'
-            + '                <td>' + (new Date(ticketData[i].targetDate).toLocaleDateString("en-US")) + '</td>'
+            + '                <td>' + (new Date(ticketData[i].modifiedOn).toLocaleDateString("en-US")) + '</td>'
             + '                <td class="text-center">'
             + '                    <div class="btn-group dots_dropdown">'
             + '                        <button type="button" class="dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">'
@@ -219,6 +230,21 @@ DashboardWorkList.TicketDetails = function () {
 }
 DashboardWorkList.ClearCRUDform = function () {
 
+}
+DashboardWorkList.LoadDefaultDates = function () {
+    var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    var firstDay = new Date(y, m, 1);
+    //var lastDay = new Date(y, m + 1, 0);
+
+    var day = ("0" + firstDay.getDate()).slice(-2);
+    var month = ("0" + (firstDay.getMonth() + 1)).slice(-2);
+    var firstDay = firstDay.getFullYear() + "-" + (month) + "-" + (day);
+    $("#ClosedTicketsStartDate").val(firstDay);
+
+    day = ("0" + date.getDate()).slice(-2);
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var today = date.getFullYear() + "-" + (month) + "-" + (day);
+    $("#ClosedTicketsEndDate").val(today);
 }
 
 

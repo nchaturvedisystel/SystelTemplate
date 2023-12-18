@@ -30,6 +30,7 @@ namespace Application.DTOs
         public int ActionUser { get; set; }
         public string RoleId { get; set; }
         public string CompanyId { get; set; }
+        public string DefaultCompanyId { get; set; }
     }
 
 }

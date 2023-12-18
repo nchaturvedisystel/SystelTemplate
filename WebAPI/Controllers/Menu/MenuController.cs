@@ -39,23 +39,6 @@ namespace WebAPI.Controllers.Menu
                 return Ok(APIResponse<string>.Unauthorized("Please check login credentials"));
 
             return Ok(response);
-        }
-
-        [HttpPost("GetClientWorkList")]
-        public async Task<IActionResult> GetClientWorkList([FromBody] SupportTicketDTO supportTicketDTO)
-        {
-            ClientWorkList response = new ClientWorkList();
-
-
-            response = await mediator.Send(new ClientWorkListCommand
-            {
-                supportTicketDTO = supportTicketDTO
-            });
-
-            if (response == null)
-                return Ok(APIResponse<string>.Unauthorized("Please check login credentials"));
-
-            return Ok(response);
-        }
+        }        
     }
 }

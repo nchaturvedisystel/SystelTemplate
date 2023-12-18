@@ -67,6 +67,7 @@ namespace WebAPI.Controllers
                     MobileNo = response.MobileNo,
                     RoleId = response.RoleId,
                     CompanyId = response.CompanyId,
+                    DefaultCompanyId = response.DefaultCompanyId,
                 };
 
                 token = jwtToken.CreateUserToken(userSessionDTO);
@@ -83,6 +84,7 @@ namespace WebAPI.Controllers
                 mobileNo = response.MobileNo,
                 roleId = response.RoleId,
                 companyId = response.CompanyId,
+                defaultCompanyId = response.DefaultCompanyId,
             };
 
             return Ok(APIResponse<dynamic>.OK(result));
@@ -110,6 +112,8 @@ namespace WebAPI.Controllers
                     emailId = userSessionDTO.EmailId,
                     mobileNo = userSessionDTO.MobileNo,
                     roleId = userSessionDTO.RoleId,
+                    companyId = userSessionDTO.CompanyId,
+                    defaultCompanyId = userSessionDTO.DefaultCompanyId,
                 };
 
                 return Ok(result);

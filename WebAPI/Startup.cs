@@ -55,6 +55,7 @@ namespace WebAPI
             services.AddTransient<ITicketActivity, TicketActivityService>();
             services.AddTransient<IClientWorkList, MenuMasterService>();
             services.AddTransient<ITicketAsignee, TicketAsigneeService>();
+            services.AddTransient<ISupportDashboard, DashboardService>();
 
             //Admin Services
             services.AddTransient<IMenuManage, MenuMasterService>();
@@ -63,7 +64,6 @@ namespace WebAPI
             services.AddTransient<IRole, RolesService>();
             services.AddTransient<ISubRole, SubRoleService>();
             services.AddTransient<IUserGroup, UserGroupService>();
-
             services.AddTransient<IWorkCenter, WorkCenterService>();
 
 

@@ -96,13 +96,20 @@
         </div>
     </div>
     <div class="p-3 action_buttons mb-4 border">
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
-            <button type="button" id="TicketCommentBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.AddCommentButtonOnClick()">Comment</button>
-            <button type="button" id="TicketTakeOverBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.TakeOverButtonOnClick()">Take Over</button>
-            <button type="button" id="TicketAssignBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.AssignTicketToUserOnClick()">Assign To</button>
-            <button type="button" id="TicketForceCloseBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.SupportTicket_Forceclose()">Force Close</button>
-            <button type="button" id="TicketEditBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.OpenEditTicketModal()">Edit</button>
-            <button type="button" id="TicketReOpenBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.SupportTicket_ReOpen()">ReOpen</button>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" id="TicketCommentBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.AddCommentButtonOnClick()">Comment</button>
+                    <button type="button" id="TicketTakeOverBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.TakeOverButtonOnClick()">Take Over</button>
+                    <button type="button" id="TicketAssignBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.AssignTicketToUserOnClick()">Assign To</button>
+                    <button type="button" id="TicketForceCloseBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.SupportTicket_Forceclose()">Force Close</button>
+                    <button type="button" id="TicketEditBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.OpenEditTicketModal()">Edit</button>
+                    <button type="button" id="TicketReOpenBtn" class="btn btn-outline-primary btn-sm" onclick="TicketDetails.SupportTicket_ReOpen()">ReOpen</button>
+                </div>
+            </div>
+            <div class="col-md-4" style="text-align:right;">                
+                <div id="RaisedByClientDiv" ></div>
+            </div>
         </div>
     </div>
 

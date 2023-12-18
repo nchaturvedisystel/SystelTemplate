@@ -18,8 +18,9 @@ TicketAsignee.BindDataToAsigneeList = function (data) {
     if (data.ticketAsignee && data.ticketAsignee.length > 0) {
         for (var i = 0; i < data.ticketAsignee.length; i++) {
             ticketAsignee = data.ticketAsignee[i];
-            var startBtnDisplay = ((ticketAsignee.aStatus) === 'Open') ? 'block' : 'none';
-            var closeBtnDisplay = ((ticketAsignee.aStatus) === 'InProgress') ? 'block' : 'none';
+            var startBtnDisplay = ((ticketAsignee.aStatus) === 'Open' || (ticketAsignee.aStatus) === 'Hold') ? '' : 'none';
+            var holdBtnDisplay = ((ticketAsignee.aStatus) === 'InProgress') ? '' : 'none';
+            var closeBtnDisplay = ((ticketAsignee.aStatus) === 'InProgress') ? '' : 'none';
             var clickEventData = {};
             clickEventData = ticketAsignee;
             var RowHtml = ('<tr>'
@@ -32,6 +33,7 @@ TicketAsignee.BindDataToAsigneeList = function (data) {
                 + '                <td>'
                 + '                     <button class="btn btn-primary btn-sm mt-2" onclick="TicketAsignee.StartTask(\'' + encodeURIComponent(JSON.stringify(clickEventData)) + '\')" style="display:' + startBtnDisplay + ';" > Start</button>'
                 + '                     <button class="btn btn-info btn-sm mt-2" onclick="TicketAsignee.CloseTask(\'' + encodeURIComponent(JSON.stringify(clickEventData)) + '\')" style="display:' + closeBtnDisplay + ';"> Close</button>'
+                + '                     <button class="btn btn-warning btn-sm mt-2" onclick="TicketAsignee.HoldTask(\'' + encodeURIComponent(JSON.stringify(clickEventData)) + '\')" style="display:' + holdBtnDisplay + ';"> Hold</button>'
                 + '                </td>'
                 + '                <td class="text-center">'
                 + '                    <div class="btn-group dots_dropdown">'
@@ -136,6 +138,12 @@ TicketAsignee.CloseTask = function (ticketAsignee) {
     ticketAsignee.actionUser = User.UserId.toString();
     Ajax.AuthPost("TicketAsignee/UpdateStatus", ticketAsignee, AsigneeTaskStartClose_OnSuccessCallBack, AsigneeTaskStartClose_OnErrorCallBack);
 }
+TicketAsignee.HoldTask = function (ticketAsignee) {
+    ticketAsignee = JSON.parse(decodeURIComponent(ticketAsignee));
+    ticketAsignee.aStatus = "Hold";
+    ticketAsignee.actionUser = User.UserId.toString();
+    Ajax.AuthPost("TicketAsignee/UpdateStatus", ticketAsignee, AsigneeTaskStartClose_OnSuccessCallBack, AsigneeTaskStartClose_OnErrorCallBack);
+}
 function AsigneeTaskStartClose_OnSuccessCallBack(data) {
     TicketAsignee.BindDataToAsigneeList(data);
 }
@@ -168,8 +176,13 @@ TicketAsignee.ClearValues = function () {
 }
 TicketAsignee.Validate = function (ticketAsignee) {
     var validated = false;
-    if (ticketAsignee.assignedTo != undefined)
+    if (ticketAsignee.assignedTo != undefined && ticketAsignee.assignedTo != 0) {
         validated = true;
+    }
+    else {
+        var ValidationMsg = "Please select <font color='red'>Assign To User</font> for this ticket..";
+        Util.DisplayAutoCloseErrorPopUp(ValidationMsg, 1500);
+    }
     return validated;
 }
 //#endregion

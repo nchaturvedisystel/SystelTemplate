@@ -38,6 +38,7 @@ Ticket.ClientUserClosedTicketListTbl = {};
 Ticket.BasepageOnReady = function () {
     loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     Ajax.CompanyId = parseInt(loggedInUser.companyId);
+    Company.LoadAll();
     Ticket.LoadAll();
 }
 //#region Load All for dataTable
@@ -92,7 +93,7 @@ function Ticket_OnSuccessCallBack(data) {
     });
 }
 function Ticket_OnErrorCallBack(data) {
-    console.error(data);
+    Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
 Ticket.BindClientUserTicketList = function (tbody, ticketData) {
     for (var i = 0; i < ticketData.length; i++) {
@@ -104,6 +105,7 @@ Ticket.BindClientUserTicketList = function (tbody, ticketData) {
             + '                <td>' + ticketData[i].title + '</td>'
             + '                <td>' + (new Date(ticketData[i].targetDate).toLocaleDateString("en-US")) + '</td>'
             + '                <td>' + (new Date(ticketData[i].createdOn).toLocaleDateString("en-US")) + '</td>'
+            + '                <td>' + ticketData[i].ticketStatus + '</td>'
             + '                <td>' + ticketData[i].assignedToName + '</td>'
             + '                <td>' + (new Date(ticketData[i].modifiedOn).toLocaleDateString("en-US")) + '</td>'
             + '                <td class="text-center">'
@@ -140,6 +142,13 @@ Ticket.OpenCreateTicketModal = function () {
     $('#CreateTicketModal').modal('show');
     Ticket.ClearForm();
     Ticket.SetDefault();
+    if (User.DefaultCompanyId.split(',').indexOf(Ajax.CompanyId.toString()) >= 0 && UserMaster.CompanyList.length > 0) {
+        document.getElementById("CompanySelectionOption").style.display = "";
+        Ticket.BindCompanyDropdownList();
+    }
+    else {
+        document.getElementById("CompanySelectionOption").style.display = "none";
+    }
     document.getElementById("WorkflowInstructionsModalLabel").innerHTML = "Create Ticket";
     document.getElementById("SupportTicketSaveBtn").innerHTML = "Create Ticket";
     document.getElementById("SupportTicketSaveBtn").onclick = Ticket.CreateNew;
@@ -156,10 +165,21 @@ function NewTicket_OnSuccessCallBack(data) {
     if ($(".rte-floatpanel-paragraphop")) {
         $(".rte-floatpanel-paragraphop").remove();
     }
+    Util.ShowSuccessMessage("Ticket Created", "Your Ticket generated successfully!!")
     Ticket.LoadAll();
 }
 function NewTicket_OnErrorCallBack(error) {
-    console.error(error);
+    Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
+}
+Ticket.BindCompanyDropdownList = function() {
+    var companyDropdown = document.getElementById('CompanyList')
+    companyDropdown.innerHTML = ""
+    options = ''
+    let companylist = UserMaster.CompanyList
+    for (var i = 0; i < companylist.length; i++) {
+        options = '<option value=' + companylist[i].companyId + '>' + companylist[i].cName + '</option>'
+        companyDropdown.innerHTML = companyDropdown.innerHTML + options
+    }
 }
 //#endregion
 
@@ -193,7 +213,7 @@ function UpdateTicket_OnSuccessCallBack(data) {
     Ticket.LoadAll();
 }
 function UpdateTicket_OnErrorCallBack(error) {
-    console.error(error);
+    Util.DisplayAutoCloseErrorPopUp("Error Occurred..", 1500);
 }
 //#endregion
 
@@ -228,6 +248,14 @@ Ticket.GetDetails = function () {
     ticketData.AddField3 = document.getElementById("raisedByContactNo").value;
     ticketData.ActionUser = User.UserId;
     ticketData.CompanyId = Ajax.CompanyId;
+
+    if (User.DefaultCompanyId.split(',').indexOf(Ajax.CompanyId.toString()) >= 0) {
+        ticketData.CompanyId = document.getElementById("CompanyList").value;
+    }
+    else {
+        ticketData.CompanyId = Ajax.CompanyId;
+    }
+
     return ticketData;
 }
 Ticket.SetDefault = function () {

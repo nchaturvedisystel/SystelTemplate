@@ -50,6 +50,8 @@ namespace Application.DTOs.SupportDesk
         public int AssignedToId { get; set; }
         public int UserId { get; set; }
         public string CreatedByName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
     }
 
